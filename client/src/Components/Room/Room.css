@@ -1,0 +1,22 @@
+.send-input {
+    padding: 1rem;
+    width: 70%;
+    outline: none;
+    border: none;
+}
+
+.send-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    position: fixed;
+    bottom: 20px;
+    width: 100%;
+}
+
+.send-btn {
+    font-size: 3rem;
+    color: green;
+    cursor: pointer;
+}
