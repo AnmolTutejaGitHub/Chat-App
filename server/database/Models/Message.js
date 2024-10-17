@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const MessageSchema = new mongoose.Schema({
-    room_id: {
+    room_name: {
         type: String,
         trim: true
     },
-    sender_id: {
+    username: {
         type: String,
         trim: true
     },
