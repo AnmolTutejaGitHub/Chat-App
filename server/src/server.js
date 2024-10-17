@@ -9,6 +9,7 @@ const Message = require('../database/Models/Message');
 const Room = require('../database/Models/Room');
 const Connection = require('../database/Models/Connection');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 app.use(cors({
     origin: "http://localhost:3000",
@@ -151,7 +152,9 @@ app.post('/login', async (req, res) => {
         if (!isPasswordMatch) {
             return res.status(400).send({ error: "Invalid Credentials" });
         }
-        res.status(200).send(user);
+
+        const token = jwt.sign({ user_id: user._id }, "tokensecret", { expiresIn: '5d' });
+        res.status(200).send({ token });
     } catch (e) {
         res.status(500).send({ error: e.message });
     }
@@ -162,11 +165,29 @@ app.post('/signup', async (req, res) => {
     try {
         const user = new User({ email, password, name });
         await user.save();
-        res.status(200).send(user);
+        const token = jwt.sign({ user_id: user._id }, "tokensecret", { expiresIn: '5d' });
+        res.status(200).send({ token });
     } catch (e) {
         res.status(400).send({ error: e.message });
     }
 })
+
+app.post('/verifytokenAndGetUsername', async (req, res) => {
+    const { token } = req.body;
+
+    try {
+        const decoded = jwt.verify(token, 'tokensecret');
+        const user = await User.findById(decoded.user_id);
+
+        if (!user) {
+            return res.status(404).send({ error: 'Invalid or expired token' });
+        }
+
+        res.status(200).send({ user: user.name });
+    } catch (e) {
+        res.status(400).send({ error: 'Invalid or expired token' });
+    }
+});
 
 server.listen(PORT, () => {
     console.log(`listening on port ${PORT}`)
