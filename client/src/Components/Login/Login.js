@@ -23,9 +23,10 @@ function Login() {
             if (response.status === 200) {
                 const token = response.data.token;
                 console.log(token);
-                localStorage.setItem('token', token);
+                //localStorage.setItem('token', token);
                 setUser(EnteredUser);
-                navigate('/home');
+                //navigate('/home');
+                navigate('/OTPValidation', { state: { email: EnteredEmail } });
             }
         } catch (error) {
             setError(error?.response?.data?.error || "Some error Occurred");

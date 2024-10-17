@@ -7,6 +7,7 @@ import Room from "../Room/Room";
 import DM from "../DM/DM";
 import Login from "../Login/Login";
 import Signup from "../Signup/Signup";
+import OTPValidation from "../OTPValidation/OTPValidation";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                     <Route path="/home" element={<Home />} />
                     <Route path="/room" element={<Room />} />
                     <Route path="/DM" element={<DM />} />
+                    <Route path="/OTPValidation" element={<OTPValidation />}></Route>
                 </Routes>
             </BrowserRouter>
         </div>

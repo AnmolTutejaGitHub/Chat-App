@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const socketio = require('socket.io');
@@ -10,6 +11,7 @@ const Room = require('../database/Models/Room');
 const Connection = require('../database/Models/Connection');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 
 app.use(cors({
     origin: "http://localhost:3000",
@@ -188,6 +190,41 @@ app.post('/verifytokenAndGetUsername', async (req, res) => {
         res.status(400).send({ error: 'Invalid or expired token' });
     }
 });
+
+
+app.post('/otp', async (req, res) => {
+    try {
+        const { email, otp } = req.body;
+
+        let transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: "anmoltutejaserver@gmail.com",
+                pass: process.env.NODEMAIL_APP_PASSWORD,
+            },
+        });
+
+        let mailOptions = {
+            from: "anmoltutejaserver@gmail.com",
+            to: email,
+            subject: 'Your login OTP',
+            text: `Your OTP is: ${otp}`,
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return res.status(400).send(error);
+            }
+            res.status(200).send(otp);
+        });
+
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});
+
 
 server.listen(PORT, () => {
     console.log(`listening on port ${PORT}`)
