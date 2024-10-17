@@ -1,12 +1,64 @@
+import { useState } from 'react';
 import './Home.css';
+import { IoClose } from "react-icons/io5";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { FaSearch } from "react-icons/fa";
+
 function Home() {
+
+    const navigate = useNavigate();
+    const [CreateRoom, setCreateRoom] = useState('');
+    const [CreateRoomModal, setCreateRoomModal] = useState(false);
+    const [error, setError] = useState('');
+    const [SearchRoom, setSearchRoom] = useState('');
+
+    async function createRoom() {
+        try {
+            const res = await axios.post(`http://localhost:6969/createRoom`, {
+                room_name: CreateRoom
+            });
+
+            if (res.status === 200) setError('room created successfully');
+            else setError('room name already taken');
+
+            const roomData = { room_name: CreateRoom };
+            navigate('/room', { state: roomData });
+
+        } catch (e) {
+            setError(e.response?.data?.message || 'An error occurred');
+        }
+    }
+
+
+    async function search() {
+        const roomData = { room_name: SearchRoom };
+        navigate('/room', { state: roomData });
+        setSearchRoom('');
+    }
+
+    //const renderRooms = 
+
     return (
         <div className="home">
             <div className='home__main'>
                 <div className="nav-search">
-                    <input placeholder="Search for Rooms..." className='nav-input'></input>
+                    <div className='input-nav-box'>
+                        <input placeholder="Search for Rooms..." className='nav-input' onChange={(e) => setSearchRoom(e.target.value)}></input>
+                        <FaSearch className='search-icon' onClick={search} />
+                    </div>
                     <div className='nav-btns'>
-                        <button className='nav-btn'>Create Room</button>
+                        <div>
+                            <button className='nav-btn' onClick={() => { setCreateRoomModal(true) }}>Create Room</button>
+                            {
+                                CreateRoomModal && <div className='create-room-modal'>
+                                    <IoClose className='close-create-room' onClick={() => { setCreateRoomModal(false); setError('') }} />
+                                    <input placeholder='Enter Room Name ...' className='create-room-input' onChange={(e) => setCreateRoom(e.target.value)}></input>
+                                    <button className='nav-btn' onClick={createRoom}>create</button>
+                                    {error && <p>*{error}</p>}
+                                </div>
+                            }
+                        </div>
                         <button className='nav-btn'>messages</button>
                     </div>
                 </div>

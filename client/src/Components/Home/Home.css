@@ -25,7 +25,7 @@
 
 .nav-input {
     padding: 1rem;
-    width: 70%;
+    width: 90%;
     outline: none;
     border: none;
     color: black;
@@ -36,8 +36,8 @@
     padding: 0.9rem;
     color: white;
     border: none;
-    border-radius: 5px;
-    background-color: #333744;
+    border-radius: 2.3px;
+    background-color: #008001;
     cursor: pointer;
 }
 
@@ -55,7 +55,48 @@
 .rooms {
     width: 80%;
     padding: 2rem;
+}
 
-    height: 100px;
-    background-color: aliceblue;
+.create-room-modal {
+    position: absolute;
+    right: 130px;
+    top: 120px;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(15.5px);
+    -webkit-backdrop-filter: blur(15.5px);
+    border-radius: 2px;
+    gap: 10px;
+}
+
+.close-create-room {
+    font-size: 20px;
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    cursor: pointer;
+    color: #333744;
+}
+
+.create-room-input {
+    padding: 0.5rem;
+    border: none;
+    outline: none;
+}
+
+.input-nav-box {
+    width: 70%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    background-color: white;
+}
+
+.search-icon {
+    font-size: 20px;
+    cursor: pointer;
 }
