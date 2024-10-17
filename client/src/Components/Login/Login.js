@@ -21,6 +21,9 @@ function Login() {
             });
 
             if (response.status === 200) {
+                const token = response.data.token;
+                console.log(token);
+                localStorage.setItem('token', token);
                 setUser(EnteredUser);
                 navigate('/home');
             }

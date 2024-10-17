@@ -17,11 +17,6 @@ function Home() {
     const [searchError, setSearchError] = useState('');
     const { user, setUser } = useContext(UserContext);
 
-
-    useEffect(() => {
-        if (!user) navigate("/");
-    }, [user])
-
     async function createRoom() {
         try {
             const res = await axios.post(`http://localhost:6969/createRoom`, {
