@@ -50,9 +50,7 @@ function Room() {
 
         if (response.status === 200) {
 
-            const msgs = response.data.map(msgObj =>
-                `${msgObj.message} by ${msgObj.username} at ${msgObj.timestamp}`
-            );
+            const msgs = response.data.map(msgObj => msgObj.username ? `${msgObj.message} by ${msgObj.username} at ${msgObj.timestamp}` : msgObj.message);
 
             setMessages(msgs);
         }

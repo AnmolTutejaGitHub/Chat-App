@@ -39,7 +39,18 @@ io.on('connection', (socket) => {
             // user.rooms.add(room);
 
             socket.join(room);
-            socket.broadcast.to(room).emit('message', `${username} has joined`);
+            io.to(room).emit('message', `${username} has joined`);
+
+            const date = new Date();
+            const timestamp = date.toLocaleString('en-US', {
+                day: 'numeric',
+                month: 'short',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+            });
+            const message = new Message({ room_name: room, message: `${username} has joined`, username: null, timestamp });
+            await message.save();
 
             const connection = new Connection({ socket_id: socket.id, room_name: room, username: username });
             await connection.save();
@@ -70,6 +81,19 @@ io.on('connection', (socket) => {
             const connection = await Connection.findOneAndDelete({ socket_id: socket.id });
             const room = connection?.room_name;
             io.to(room).emit('message', `${connection?.username} has left`);
+
+            const date = new Date();
+            const timestamp = date.toLocaleString('en-US', {
+                day: 'numeric',
+                month: 'short',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+            });
+
+            const message = new Message({ room_name: room, message: `${connection?.username} has left`, username: null, timestamp });
+            await message.save();
+
         } catch (e) {
             console.error(e);
         }
