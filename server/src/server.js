@@ -7,7 +7,8 @@ require('../database/mongoose');
 const User = require('../database/Models/User');
 const Message = require('../database/Models/Message');
 const Room = require('../database/Models/Room');
-const Connection = require('../database/Models/Connection')
+const Connection = require('../database/Models/Connection');
+const bcrypt = require('bcrypt');
 
 app.use(cors({
     origin: "http://localhost:3000",
@@ -119,6 +120,51 @@ app.post('/roomMessages', async (req, res) => {
         res.send(messages);
     } catch (err) {
         res.status(400).send(e);
+    }
+})
+
+app.post('/allRooms', async (req, res) => {
+    try {
+        const room = req.body.room_name;
+        const exist = await Room.findOne({ name: room });
+
+        if (exist) {
+            res.status(200).send(room);
+        } else {
+            res.status(404).send("No room with this name exists");
+        }
+
+    } catch (e) {
+        res.status(400).send(e);
+    }
+});
+
+
+app.post('/login', async (req, res) => {
+    const { email, password, name } = req.body;
+    try {
+        const user = await User.findOne({ email, name });
+        if (!user) {
+            return res.status(400).send({ error: "Invalid Credentials" });
+        }
+        const isPasswordMatch = await bcrypt.compare(password, user.password);
+        if (!isPasswordMatch) {
+            return res.status(400).send({ error: "Invalid Credentials" });
+        }
+        res.status(200).send(user);
+    } catch (e) {
+        res.status(500).send({ error: e.message });
+    }
+});
+
+app.post('/signup', async (req, res) => {
+    const { email, password, name } = req.body;
+    try {
+        const user = new User({ email, password, name });
+        await user.save();
+        res.status(200).send(user);
+    } catch (e) {
+        res.status(400).send({ error: e.message });
     }
 })
 

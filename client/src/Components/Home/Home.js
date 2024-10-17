@@ -4,6 +4,8 @@ import { IoClose } from "react-icons/io5";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaSearch } from "react-icons/fa";
+import { useContext, useEffect } from 'react';
+import UserContext from '../../Context/UserContext';
 
 function Home() {
 
@@ -12,6 +14,13 @@ function Home() {
     const [CreateRoomModal, setCreateRoomModal] = useState(false);
     const [error, setError] = useState('');
     const [SearchRoom, setSearchRoom] = useState('');
+    const [searchError, setSearchError] = useState('');
+    const { user, setUser } = useContext(UserContext);
+
+
+    useEffect(() => {
+        if (!user) navigate("/");
+    }, [user])
 
     async function createRoom() {
         try {
@@ -32,12 +41,22 @@ function Home() {
 
 
     async function search() {
-        const roomData = { room_name: SearchRoom };
-        navigate('/room', { state: roomData });
-        setSearchRoom('');
+        try {
+
+            const response = await axios.post(`http://localhost:6969/allRooms`, {
+                room_name: SearchRoom
+            });
+
+            if (response.status === 200) {
+                const roomData = { room_name: SearchRoom };
+                navigate('/room', { state: roomData });
+                setSearchRoom('');
+            }
+        } catch (error) {
+            setSearchError("Room with this name doesn't exist");
+        }
     }
 
-    //const renderRooms = 
 
     return (
         <div className="home">
