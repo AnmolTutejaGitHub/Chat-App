@@ -29,7 +29,7 @@ const io = socketio(server, {
         credentials: true
     }
 });
-
+app.options('*', cors());
 const PORT = process.env.PORT || 6969;
 
 
