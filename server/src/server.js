@@ -19,6 +19,8 @@ app.use(cors({
 }));
 app.use(express.json());
 
+console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
+
 const server = http.createServer(app);
 //const io = socketio(server);
 const io = socketio(server, {
