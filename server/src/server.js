@@ -39,7 +39,10 @@ const server = http.createServer(app);
 const io = socketio(server, {
     cors: corsOptions
 });
-app.options('*', cors());
+app.options('*', (req, res) => {
+    res.sendStatus(200);
+});
+
 const PORT = process.env.PORT || 6969;
 
 
