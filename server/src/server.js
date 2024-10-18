@@ -14,7 +14,7 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: `${process.env.FRONTEND_URL}`,
     credentials: true
 }));
 app.use(express.json());
@@ -23,7 +23,7 @@ const server = http.createServer(app);
 //const io = socketio(server);
 const io = socketio(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: `${process.env.FRONTEND_URL}`,
         credentials: true
     }
 });
@@ -32,7 +32,7 @@ const PORT = process.env.PORT || 6969;
 
 
 io.on('connection', (socket) => {
-    console.log('new websocket connection');
+    //console.log('new websocket connection');
 
     //socket.emit('message', 'welcome');
 
@@ -168,7 +168,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.post('/signup', async (req, res) => {
+app.post('/signups', async (req, res) => {
     const { email, password, name } = req.body;
     try {
         const user = new User({ email, password, name });

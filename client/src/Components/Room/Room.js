@@ -10,6 +10,7 @@ import Messagejsx from './Messagejsx';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { BiSolidExit } from "react-icons/bi";
 import { useNavigate } from 'react-router-dom';
+import { PiUploadSimpleBold } from "react-icons/pi";
 
 function Room() {
 
@@ -20,7 +21,7 @@ function Room() {
 
     const [Users, setUsers] = useState([]);
 
-    const SOCKET_SERVER_URL = "http://localhost:6969";
+    const SOCKET_SERVER_URL = `${process.env.REACT_APP_BACKEND_URL}`;
     const socket = io(SOCKET_SERVER_URL);
 
     const [messages, setMessages] = useState([]);
@@ -63,7 +64,7 @@ function Room() {
     }
 
     async function getHistory() {
-        const response = await axios.post('http://localhost:6969/roomMessages', {
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/roomMessages`, {
             room_name: roomData.room_name
         });
 
@@ -80,7 +81,7 @@ function Room() {
 
     async function FetchUsers() {
         try {
-            const response = await axios.post('http://localhost:6969/roomUsers', {
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/roomUsers`, {
                 room_name: roomData.room_name
             });
 
@@ -121,7 +122,10 @@ function Room() {
                 </ScrollToBottom>
             </div>
             <div className='send-div'>
-                <input className='send-input' onChange={(e) => setEnteredValue(e.target.value)} value={enteredValue} onKeyPress={InputEnterMessageSend}></input>
+                <div className='input-msg'>
+                    <input className='send-input' onChange={(e) => setEnteredValue(e.target.value)} value={enteredValue} onKeyPress={InputEnterMessageSend}></input>
+                    <PiUploadSimpleBold className='file-upload' />
+                </div>
                 <IoSend className='send-btn' onClick={sendMessage} />
             </div>
         </div>

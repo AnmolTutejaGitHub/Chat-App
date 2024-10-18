@@ -14,7 +14,7 @@ function Login() {
 
     async function handleLogin() {
         try {
-            const response = await axios.post('http://localhost:6969/login', {
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/login`, {
                 name: EnteredUser,
                 email: EnteredEmail,
                 password: EnteredPassword,

@@ -23,7 +23,7 @@ function Home() {
     }, []);
     async function createRoom() {
         try {
-            const res = await axios.post(`http://localhost:6969/createRoom`, {
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/createRoom`, {
                 room_name: CreateRoom
             });
 
@@ -34,7 +34,7 @@ function Home() {
             navigate('/room', { state: roomData });
 
         } catch (e) {
-            setError(e.response?.data?.message || 'An error occurred');
+            setError(e.response?.data?.message || 'room name already taken');
         }
     }
 
@@ -46,7 +46,7 @@ function Home() {
                 setSearchError("Room name can't be empty");
                 return;
             }
-            const response = await axios.post(`http://localhost:6969/allRooms`, {
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/allRooms`, {
                 room_name: SearchRoom
             });
 
@@ -85,7 +85,7 @@ function Home() {
                                     <IoClose className='close-create-room' onClick={() => { setCreateRoomModal(false); setError('') }} />
                                     <input placeholder='Enter Room Name ...' className='create-room-input' onChange={(e) => { setCreateRoom(e.target.value); }}></input>
                                     <button className='nav-btn' onClick={createRoom}>create</button>
-                                    {error && <p>*{error}</p>}
+                                    {error && <p className='error'>*{error}</p>}
                                 </div>
                             }
                         </div>

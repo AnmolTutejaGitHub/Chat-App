@@ -1,4 +1,4 @@
-# Current Under Development
+# Currently Under Development
 
 This is my first full stack project
 

@@ -26,7 +26,7 @@ function OTPValidation() {
             const otp = generateOTP();
             setSentOTP(otp);
 
-            await axios.post(`http://localhost:6969/otp`, { email, otp });
+            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/otp`, { email, otp });
             setError("");
             notify();
         } catch (e) {

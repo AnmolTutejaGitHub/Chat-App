@@ -1,6 +1,6 @@
 .send-input {
     padding: 1rem;
-    width: 70%;
+    width: 96%;
     outline: none;
     border: none;
 }
@@ -91,4 +91,17 @@
     top: 10px;
     right: 10px;
     font-size: 1.7rem;
+}
+
+.file-upload {
+    font-size: 2rem;
+    cursor: pointer;
+    color: grey;
+}
+
+.input-msg {
+    width: 74%;
+    background-color: white;
+    display: flex;
+    align-items: center;
 }
