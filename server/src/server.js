@@ -43,8 +43,6 @@ io.on('connection', (socket) => {
             // user.rooms.add(room);
 
             socket.join(room);
-            io.to(room).emit('message', `${username} has joined`);
-            io.to(room).emit('userJoined', { room });
 
             const date = new Date();
             const timestamp = date.toLocaleString('en-US', {
@@ -54,6 +52,11 @@ io.on('connection', (socket) => {
                 minute: 'numeric',
                 hour12: true
             });
+
+            io.to(room).emit('message', { msg: `${username} has joined`, username: null, timestamp });
+            io.to(room).emit('userJoined', { room });
+
+
             const message = new Message({ room_name: room, message: `${username} has joined`, username: null, timestamp });
             await message.save();
 
@@ -76,7 +79,7 @@ io.on('connection', (socket) => {
             minute: 'numeric',
             hour12: true
         });
-        io.to(room_name).emit('message', `${msg} by ${username} at ${timestamp}`);
+        io.to(room_name).emit('message', { msg, username, timestamp });
         const message = new Message({ room_name, message: msg, username, timestamp });
         await message.save();
     })
@@ -85,8 +88,6 @@ io.on('connection', (socket) => {
         try {
             const connection = await Connection.findOneAndDelete({ socket_id: socket.id });
             const room = connection?.room_name;
-            io.to(room).emit('message', `${connection?.username} has left`);
-            io.to(room).emit('userLeft', { room });
 
             const date = new Date();
             const timestamp = date.toLocaleString('en-US', {
@@ -96,6 +97,9 @@ io.on('connection', (socket) => {
                 minute: 'numeric',
                 hour12: true
             });
+
+            io.to(room).emit('message', { msg: `${connection?.username} has left`, username: null, timestamp });
+            io.to(room).emit('userLeft', { room });
 
             const message = new Message({ room_name: room, message: `${connection?.username} has left`, username: null, timestamp });
             await message.save();

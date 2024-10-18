@@ -6,6 +6,9 @@ import { IoSend } from "react-icons/io5";
 import { useContext } from 'react';
 import UserContext from '../../Context/UserContext';
 import axios from 'axios';
+import Messagejsx from './Messagejsx';
+import ScrollToBottom from 'react-scroll-to-bottom';
+
 function Room() {
 
     const location = useLocation();
@@ -21,7 +24,7 @@ function Room() {
     const [enteredValue, setEnteredValue] = useState('');
 
     const renderMessages = messages.map((msg, index) => {
-        return <p key={index}>{msg}</p>;
+        return <div key={index}>{msg}</div>;
     });
 
     useEffect(() => {
@@ -29,7 +32,11 @@ function Room() {
         socket.emit('join', { username: user, room: roomData.room_name });
 
         socket.on("message", (message) => {
-            setMessages((prevMessages) => [...prevMessages, message]);
+
+            const mess = (
+                <Messagejsx _key={new Date()} username={message?.username} timestamp={message.timestamp} msg={message.msg} />
+            );
+            setMessages((prevMessages) => [...prevMessages, mess]);
         });
 
         socket.on("userJoined", () => {
@@ -59,7 +66,9 @@ function Room() {
 
         if (response.status === 200) {
 
-            const msgs = response.data.map(msgObj => msgObj.username ? `${msgObj.message} by ${msgObj.username} at ${msgObj.timestamp}` : msgObj.message);
+            const msgs = response.data.map((msgObj, index) => (
+                <Messagejsx _key={index} username={msgObj.username} timestamp={msgObj.timestamp} msg={msgObj.message} />
+            ));
 
             setMessages(msgs);
         }
@@ -83,22 +92,29 @@ function Room() {
 
 
     const renderUsers = Users.map((user) => {
-        return <p>{user.username}</p>
+        return <div>{user.username}</div>
     })
+
+    function InputEnterMessageSend(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    }
 
     return (
         <div className='room-div'>
             <div className='sidebar'>{renderUsers}</div>
             <div className='room-name'>{roomData.room_name}</div>
             <div>
-                <div className='messages'>{renderMessages}</div>
+                <ScrollToBottom className='scroll-css'>
+                    <div className='messages'>{renderMessages}</div>
+                </ScrollToBottom>
             </div>
             <div className='send-div'>
-                <input className='send-input' onChange={(e) => setEnteredValue(e.target.value)} value={enteredValue}></input>
+                <input className='send-input' onChange={(e) => setEnteredValue(e.target.value)} value={enteredValue} onKeyPress={InputEnterMessageSend}></input>
                 <IoSend className='send-btn' onClick={sendMessage} />
             </div>
         </div>
-
     );
 }
 export default Room;
