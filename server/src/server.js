@@ -114,6 +114,11 @@ io.on('connection', (socket) => {
 
 
 app.post('/createRoom', async (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', `${process.env.FRONTEND_URL}`);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
     try {
         const room = new Room({ name: req.body.room_name })
         await room.save();
@@ -125,6 +130,11 @@ app.post('/createRoom', async (req, res) => {
 })
 
 app.post('/roomMessages', async (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', `${process.env.FRONTEND_URL}`);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
     const room = req.body.room_name;
     try {
         const messages = await Message.find({ room_name: room }).sort({ timestamp: 1 });
@@ -135,6 +145,11 @@ app.post('/roomMessages', async (req, res) => {
 })
 
 app.post('/allRooms', async (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', `${process.env.FRONTEND_URL}`);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
     try {
         const room = req.body.room_name;
         const exist = await Room.findOne({ name: room });
@@ -152,6 +167,11 @@ app.post('/allRooms', async (req, res) => {
 
 
 app.post('/login', async (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', `${process.env.FRONTEND_URL}`);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
     const { email, password, name } = req.body;
     try {
         const user = await User.findOne({ email, name });
@@ -171,6 +191,11 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/signups', async (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', `${process.env.FRONTEND_URL}`);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
     const { email, password, name } = req.body;
     try {
         const user = new User({ email, password, name });
@@ -183,6 +208,11 @@ app.post('/signups', async (req, res) => {
 })
 
 app.post('/verifytokenAndGetUsername', async (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', `${process.env.FRONTEND_URL}`);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
     const { token } = req.body;
 
     try {
@@ -201,6 +231,11 @@ app.post('/verifytokenAndGetUsername', async (req, res) => {
 
 
 app.post('/otp', async (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', `${process.env.FRONTEND_URL}`);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
     try {
         const { email, otp } = req.body;
 
@@ -234,6 +269,11 @@ app.post('/otp', async (req, res) => {
 });
 
 app.post('/roomUsers', async (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', `${process.env.FRONTEND_URL}`);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
     try {
         const { room_name } = req.body;
         const users = await Connection.find({ room_name });
