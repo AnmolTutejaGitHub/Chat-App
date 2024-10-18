@@ -20,3 +20,42 @@
     color: green;
     cursor: pointer;
 }
+
+.room-name {
+    font-size: 1rem;
+    color: #008001;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(15.5px);
+    -webkit-backdrop-filter: blur(15.5px);
+    /* background-color: rgb(216, 175, 27); */
+    padding: 1rem;
+    cursor: pointer;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+}
+
+.room-name span {
+    font-size: 1rem;
+    color: gray;
+}
+
+.messages {
+    color: white;
+    padding-left: 3rem;
+    padding-top: 45px;
+}
+
+.sidebar {
+    width: 20%;
+    background-color: #2D3035;
+    min-height: 100vh;
+    padding-top: 45px;
+}
+
+.room-div {
+    display: flex;
+    flex-direction: row;
+    background-color: #34373C;
+}

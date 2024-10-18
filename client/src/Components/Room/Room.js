@@ -11,7 +11,8 @@ function Room() {
     const location = useLocation();
     const roomData = location.state;
     const { user, setUser } = useContext(UserContext);
-    console.log(user);
+
+    const [Users, setUsers] = useState([]);
 
     const SOCKET_SERVER_URL = "http://localhost:6969";
     const socket = io(SOCKET_SERVER_URL);
@@ -29,6 +30,14 @@ function Room() {
 
         socket.on("message", (message) => {
             setMessages((prevMessages) => [...prevMessages, message]);
+        });
+
+        socket.on("userJoined", () => {
+            FetchUsers();
+        });
+
+        socket.on("userLeft", () => {
+            FetchUsers();
         });
 
         return () => {
@@ -56,15 +65,40 @@ function Room() {
         }
     }
 
+
+    async function FetchUsers() {
+        try {
+            const response = await axios.post('http://localhost:6969/roomUsers', {
+                room_name: roomData.room_name
+            });
+
+            if (response.status === 200) {
+                const users = response.data;
+                setUsers(users);
+            }
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        }
+    }
+
+
+    const renderUsers = Users.map((user) => {
+        return <p>{user.username}</p>
+    })
+
     return (
-        <div>
-            <p>{roomData.room_name}</p>
-            <div>{renderMessages}</div>
+        <div className='room-div'>
+            <div className='sidebar'>{renderUsers}</div>
+            <div className='room-name'>{roomData.room_name}</div>
+            <div>
+                <div className='messages'>{renderMessages}</div>
+            </div>
             <div className='send-div'>
                 <input className='send-input' onChange={(e) => setEnteredValue(e.target.value)} value={enteredValue}></input>
                 <IoSend className='send-btn' onClick={sendMessage} />
             </div>
         </div>
+
     );
 }
 export default Room;
