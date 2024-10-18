@@ -13,10 +13,23 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
-app.use(cors({
-    origin: `${process.env.FRONTEND_URL}`,
-    credentials: true
-}));
+const corsOptions = {
+    origin: function (origin, callback) {
+        const allowedOrigins = [process.env.FRONTEND_URL, 'http://localhost:3000'];
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            console.log('Origin not allowed by CORS:', origin);
+            callback(new Error('Not allowed by CORS'))
+        }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+}
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
@@ -24,10 +37,7 @@ console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
 const server = http.createServer(app);
 //const io = socketio(server);
 const io = socketio(server, {
-    cors: {
-        origin: `${process.env.FRONTEND_URL}`,
-        credentials: true
-    }
+    cors: corsOptions
 });
 app.options('*', cors());
 const PORT = process.env.PORT || 6969;
