@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import '../Login/Login.css';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Signup() {
     const [EnteredUser, setEnteredUser] = useState('');
@@ -14,6 +16,7 @@ function Signup() {
     const { user, setUser } = useContext(UserContext);
 
     async function SignUp() {
+        const notify = () => toast.success("Sign up Successful!");
         try {
             const response = await axios.post('http://localhost:6969/signup', {
                 email: EnteredEmail,
@@ -22,11 +25,16 @@ function Signup() {
             });
 
             if (response.status === 200) {
-                const token = response.data.token;
-                console.log(token);
+                //const token = response.data.token;
+                //console.log(token);
                 //localStorage.setItem('token', token);
 
-                navigate("/");
+                notify();
+
+                setTimeout(() => {
+                    navigate("/");
+                }, 2000);
+
             }
         } catch (error) {
             setError(error?.response?.data?.error || "Some error Occurred");
@@ -35,6 +43,7 @@ function Signup() {
 
     return (
         <div className="login-page">
+            <ToastContainer />
             <div className='login-div'>
                 <form className='login' onSubmit={(e) => { e.preventDefault(); SignUp(); }}>
                     <p>Signup & Join Rooms</p>

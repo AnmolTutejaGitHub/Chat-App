@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from 'axios';
 import './OTPValidation.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function OTPValidation() {
+    const notify = () => toast.success("Otp sent Successfully!");
     const navigate = useNavigate();
     const location = useLocation();
     const { email } = location.state || '';
@@ -25,7 +28,7 @@ function OTPValidation() {
 
             await axios.post(`http://localhost:6969/otp`, { email, otp });
             setError("");
-            alert("OTP sent successfully!");
+            notify();
         } catch (e) {
             setError("Error sending OTP");
         } finally {
@@ -53,6 +56,7 @@ function OTPValidation() {
 
     return (
         <div className="login-page">
+            <ToastContainer />
             <div className="login-div">
                 <div className="otp-div">
                     <form className='login'>
@@ -66,6 +70,7 @@ function OTPValidation() {
                         <button onClick={sendOTP} disabled={otpSending} className="nav-btn">Generate OTP</button>
                         <button onClick={validateOTP} className="nav-btn">Validate OTP</button>
                         {error && <p className="error">*{error}</p>}
+                        {otpSending && <p>sending...</p>}
                     </form>
 
                 </div>

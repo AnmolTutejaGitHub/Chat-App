@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import './Room.css';
 import { io } from "socket.io-client";
 import { useEffect, useState } from 'react';
@@ -8,9 +8,12 @@ import UserContext from '../../Context/UserContext';
 import axios from 'axios';
 import Messagejsx from './Messagejsx';
 import ScrollToBottom from 'react-scroll-to-bottom';
+import { BiSolidExit } from "react-icons/bi";
+import { useNavigate } from 'react-router-dom';
 
 function Room() {
 
+    const navigate = useNavigate();
     const location = useLocation();
     const roomData = location.state;
     const { user, setUser } = useContext(UserContext);
@@ -101,10 +104,17 @@ function Room() {
         }
     }
 
+    function leaveRoom() {
+        socket.disconnect();
+        navigate("/home");
+    }
+
     return (
         <div className='room-div'>
             <div className='sidebar'>{renderUsers}</div>
-            <div className='room-name'>{roomData.room_name}</div>
+            <div className='room-name'>{roomData.room_name}
+                <BiSolidExit className='leave-btn' onClick={leaveRoom} />
+            </div>
             <div>
                 <ScrollToBottom className='scroll-css'>
                     <div className='messages'>{renderMessages}</div>
