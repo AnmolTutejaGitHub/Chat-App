@@ -74,7 +74,11 @@ function Home() {
                 <div className='welcome'>Welcome {user}</div>
                 <div className="nav-search">
                     <div className='input-nav-box'>
-                        <input placeholder="Search for Rooms..." className='nav-input' onChange={(e) => { setSearchRoom(e.target.value); setSearchError(''); }}></input>
+                        <input placeholder="Search for Rooms..." className='nav-input' onChange={(e) => { setSearchRoom(e.target.value); setSearchError(''); }} onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                search();
+                            }
+                        }} ></input>
                         <FaSearch className='search-icon' onClick={search} />
                     </div>
                     <div className='nav-btns'>
@@ -83,13 +87,13 @@ function Home() {
                             {
                                 CreateRoomModal && <div className='create-room-modal'>
                                     <IoClose className='close-create-room' onClick={() => { setCreateRoomModal(false); setError('') }} />
-                                    <input placeholder='Enter Room Name ...' className='create-room-input' onChange={(e) => { setCreateRoom(e.target.value); }}></input>
+                                    <input placeholder='Enter Room Name ...' className='create-room-input' onChange={(e) => { setCreateRoom(e.target.value); }} ></input>
                                     <button className='nav-btn' onClick={createRoom}>create</button>
                                     {error && <p className='error'>*{error}</p>}
                                 </div>
                             }
                         </div>
-                        <button className='nav-btn'>messages</button>
+                        <button className='nav-btn' onClick={() => { navigate("/DM") }}>messages</button>
                     </div>
                     {searchError && <div className='error'>*{searchError}</div>}
                 </div>

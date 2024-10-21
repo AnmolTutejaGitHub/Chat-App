@@ -19,8 +19,6 @@ app.use(cors({
 }));
 app.use(express.json());
 
-console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
-
 const server = http.createServer(app);
 //const io = socketio(server);
 const io = socketio(server, {
@@ -86,6 +84,31 @@ io.on('connection', (socket) => {
         await message.save();
     })
 
+    socket.on('joinDM', async ({ sender, receiver, room }) => {
+        try {
+            socket.join(room);
+            const connection = new Connection({ socket_id: socket.id, room_name: room, username: sender });
+            await connection.save();
+        } catch (e) {
+            console.log(e);
+        }
+    })
+
+    socket.on('SendDMMessage', async ({ room_name, msg, sender }) => {
+        const date = new Date();
+        const timestamp = date.toLocaleString('en-US', {
+            day: 'numeric',
+            month: 'short',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+        });
+
+        io.to(room_name).emit('DMMessage', { msg, sender, timestamp });
+        const message = new Message({ room_name, message: msg, username: sender, timestamp });
+        await message.save();
+    })
+
     socket.on('disconnect', async () => {
         try {
             const connection = await Connection.findOneAndDelete({ socket_id: socket.id });
@@ -110,8 +133,8 @@ io.on('connection', (socket) => {
             console.error(e);
         }
     });
-})
 
+})
 
 app.post('/createRoom', async (req, res) => {
     try {
@@ -240,6 +263,31 @@ app.post('/roomUsers', async (req, res) => {
         res.send(users);
     } catch (e) {
         res.status(400).send(e);
+    }
+})
+
+app.post('/findUser', async (req, res) => {
+    const { searchUser } = req.body;
+    try {
+        const user = await User.findOne({ name: searchUser.trim() });
+        if (!user) res.status(400).send({ message: "User does not exist" });
+
+        res.status(200).send(user._id.toString());
+
+    } catch (e) {
+        res.status(400).send({ message: "User does not exist" });
+    }
+})
+
+
+app.post('/createOrGetDMRoom', async (req, res) => {
+    try {
+        const room = new Room({ name: req.body.room_name })
+        await room.save();
+        res.status(200).send(room);
+    } catch (e) {
+        // --> already created
+        res.status(200).send({ message: "already DMed once" });
     }
 })
 

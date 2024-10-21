@@ -36,7 +36,6 @@ function Room() {
         socket.emit('join', { username: user, room: roomData.room_name });
 
         socket.on("message", (message) => {
-
             const mess = (
                 <Messagejsx _key={new Date()} username={message?.username} timestamp={message.timestamp} msg={message.msg} />
             );
