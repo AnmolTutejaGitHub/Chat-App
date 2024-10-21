@@ -32,8 +32,10 @@ const PORT = process.env.PORT || 6969;
 
 
 io.on('connection', (socket) => {
-    //console.log('new websocket connection');
-
+    console.log('new websocket connection');
+    socket.on('error', (error) => {
+        console.error('WebSocket error:', error);
+    });
     //socket.emit('message', 'welcome');
 
     socket.on('join', async ({ username, room }) => {
