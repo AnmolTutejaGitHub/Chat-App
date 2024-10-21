@@ -272,7 +272,7 @@ app.post('/findUser', async (req, res) => {
         const user = await User.findOne({ name: searchUser.trim() });
         if (!user) res.status(400).send({ message: "User does not exist" });
 
-        res.status(200).send(user._id.toString());
+        else res.status(200).send(user._id.toString());
 
     } catch (e) {
         res.status(400).send({ message: "User does not exist" });

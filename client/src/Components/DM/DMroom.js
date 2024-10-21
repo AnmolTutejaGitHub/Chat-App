@@ -74,12 +74,12 @@ function DMroom() {
 
     function leaveRoom() {
         socket.disconnect();
-        navigate("/home");
+        navigate("/DM");
     }
 
 
     return (<div>
-        <div className='room-name'>{roomData.receiver}
+        <div className='room-name'>{roomData.sender == roomData.receiver ? "Myself" : roomData.receiver}
             <BiSolidExit className='leave-btn' onClick={leaveRoom} />
         </div>
         <ScrollToBottom className='scroll-css-dm'>

@@ -11,6 +11,7 @@ function DM() {
     const [EnteredUsername, setUsername] = useState('');
     const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
+    const [error, setError] = useState('');
 
 
     async function getSearchedUserId(name) {
@@ -48,14 +49,23 @@ function DM() {
             }
             navigate('/DMroom', { state: roomData });
         }
+
+        else {
+            setError('username does not exist in database');
+        }
     }
 
     return (
         <div>
             <div className='input-nav-box search-position'>
-                <input placeholder="Search by username...." className='nav-input' onChange={(e) => setUsername(e.target.value)}></input>
+                <input placeholder="Search by username...." className='nav-input' onChange={(e) => { setUsername(e.target.value); setError('') }} onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        EstablishDM();
+                    }
+                }}></input>
                 <FaSearch className='search-icon' onClick={EstablishDM} />
             </div>
+            {error && <p className="error error-dm">*{error}</p>}
         </div>
     );
 }
