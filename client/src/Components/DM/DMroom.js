@@ -20,7 +20,6 @@ function DMroom() {
     const roomData = location.state;
     const [enteredValue, setEnteredValue] = useState('');
     const { user, setUser } = useContext(UserContext);
-    const [messageSent, setMessageSent] = useState(false);
     const navigate = useNavigate();
 
 
@@ -32,15 +31,13 @@ function DMroom() {
     function sendMessage() {
         socket.emit('SendDMMessage', { room_name: roomData.room, msg: enteredValue, sender: roomData.sender });
         setEnteredValue('');
-        setMessageSent(!messageSent);
     }
 
     useEffect(() => {
         getHistory();
-        socket.emit('joinDM', { sender: roomData.sender, receiver: roomData.receiver });
+        socket.emit('joinDM', { sender: roomData.sender, receiver: roomData.receiver, room: roomData.room });
 
         socket.on("DMMessage", (message) => {
-            console.log("listening DM in useffect");
             const mess = (
                 <Messagejsx _key={new Date()} username={message.sender} timestamp={message.timestamp} msg={message.msg} />
             );
@@ -49,7 +46,7 @@ function DMroom() {
         return () => {
             socket.disconnect();
         };
-    }, [roomData.room, user, messageSent]);
+    }, [roomData.room, user]);
 
 
     async function getHistory() {
@@ -58,10 +55,16 @@ function DMroom() {
         });
 
         if (response.status === 200) {
-            const msgs = response.data.map((msgObj, index) => (
-                <Messagejsx _key={index} username={msgObj.username} timestamp={msgObj.timestamp} msg={msgObj.message} />
-            ));
-
+            const msgs = response.data
+                .filter(msgObj => msgObj.username) // left/joined msgs fixxed
+                .map((msgObj, index) => (
+                    <Messagejsx
+                        key={index}
+                        username={msgObj.username}
+                        timestamp={msgObj.timestamp}
+                        msg={msgObj.message}
+                    />
+                ));
             setMessages(msgs);
         }
     }
