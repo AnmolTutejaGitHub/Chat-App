@@ -69,8 +69,24 @@ function DM() {
     }
 
     const renderFriends = friends.map((friend, index) => (
-        <p key={index}>{friend}</p>
+        <div key={index} className="DM-chat" onClick={() => { handleFriendClick(friend) }}> <p>{user === friend ? "myself" : friend}</p> </div>
     ));
+
+    async function handleFriendClick(friend) {
+
+        const receiver_id = await getSearchedUserId(friend);
+        const sender_id = await getSearchedUserId(user);
+
+        const room = sender_id + receiver_id;
+        const sortedRoomName = room.split('').sort().join('');
+
+        const roomData = {
+            sender: user,
+            receiver: friend,
+            room: sortedRoomName
+        }
+        navigate('/DMroom', { state: roomData });
+    }
 
     return (
         <div>
@@ -82,10 +98,10 @@ function DM() {
                 }}></input>
                 <FaSearch className='search-icon' onClick={EstablishDM} />
             </div>
-            <div>
+            {error && <p className="error error-dm">*{error}</p>}
+            <div className="DM-chats">
                 {renderFriends}
             </div>
-            {error && <p className="error error-dm">*{error}</p>}
         </div>
     );
 }

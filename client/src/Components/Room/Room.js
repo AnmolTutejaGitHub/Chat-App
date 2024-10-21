@@ -21,7 +21,7 @@ function Room() {
 
     const [Users, setUsers] = useState([]);
 
-    const SOCKET_SERVER_URL = `${process.env.REACT_APP_BACKEND_URL}`;
+    const SOCKET_SERVER_URL = `wss://${process.env.REACT_APP_BACKEND_URL}`;
     const socket = io(SOCKET_SERVER_URL);
 
     const [messages, setMessages] = useState([]);

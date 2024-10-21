@@ -36,7 +36,6 @@ io.on('connection', (socket) => {
     socket.on('error', (error) => {
         console.error('WebSocket error:', error);
     });
-    //socket.emit('message', 'welcome');
 
     socket.on('join', async ({ username, room }) => {
 
