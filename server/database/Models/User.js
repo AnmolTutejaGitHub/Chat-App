@@ -37,7 +37,8 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
-    rooms: [String]
+    rooms: [String],
+    chatted: [String]
 })
 
 userSchema.pre('save', async function (next) {

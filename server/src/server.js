@@ -281,6 +281,15 @@ app.post('/findUser', async (req, res) => {
 
 
 app.post('/createOrGetDMRoom', async (req, res) => {
+    const Sender = await User.findOne({ name: req.body.sender });
+    const Receiver = await User.findOne({ name: req.body.receiver });
+
+    if (!Sender.chatted.includes(req.body.receiver)) Sender.chatted.push(req.body.receiver);
+    if (!Receiver.chatted.includes(req.body.sender)) Receiver.chatted.push(req.body.receiver);
+
+    await Sender.save();
+    await Receiver.save();
+
     try {
         const room = new Room({ name: req.body.room_name })
         await room.save();
@@ -291,6 +300,19 @@ app.post('/createOrGetDMRoom', async (req, res) => {
     }
 })
 
+app.post('/getFriends', async (req, res) => {
+    const username = req.body.user;
+    try {
+        const user = await User.findOne({ name: username });
+        if (!user) {
+            return res.status(404).send({ message: "User not found" });
+        }
+        res.status(200).send(user.chatted);
+    }
+    catch (e) {
+        res.status(400).send(e);
+    }
+})
 server.listen(PORT, () => {
     console.log(`listening on port ${PORT}`)
 })

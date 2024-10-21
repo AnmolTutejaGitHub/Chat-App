@@ -12,8 +12,12 @@ function DM() {
     const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [error, setError] = useState('');
+    const [friends, setFriends] = useState([]);
 
 
+    useEffect(() => {
+        fetchFriends();
+    }, [user])
     async function getSearchedUserId(name) {
         try {
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/findUser`, {
@@ -39,7 +43,9 @@ function DM() {
             const sortedRoomName = room.split('').sort().join('');
 
             await axios.post(`${process.env.REACT_APP_BACKEND_URL}/createOrGetDMRoom`, {
-                room_name: sortedRoomName
+                room_name: sortedRoomName,
+                receiver,
+                sender: user
             });
 
             const roomData = {
@@ -55,6 +61,17 @@ function DM() {
         }
     }
 
+    async function fetchFriends() {
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/getFriends`, {
+            user: user
+        })
+        setFriends(response.data);
+    }
+
+    const renderFriends = friends.map((friend, index) => (
+        <p key={index}>{friend}</p>
+    ));
+
     return (
         <div>
             <div className='input-nav-box search-position'>
@@ -64,6 +81,9 @@ function DM() {
                     }
                 }}></input>
                 <FaSearch className='search-icon' onClick={EstablishDM} />
+            </div>
+            <div>
+                {renderFriends}
             </div>
             {error && <p className="error error-dm">*{error}</p>}
         </div>

@@ -80,7 +80,6 @@ function DMroom() {
         navigate("/DM");
     }
 
-
     return (<div>
         <div className='room-name'>{roomData.sender == roomData.receiver ? "Myself" : roomData.receiver}
             <BiSolidExit className='leave-btn' onClick={leaveRoom} />
@@ -95,6 +94,7 @@ function DMroom() {
             </div>
             <IoSend className='send-btn' onClick={sendMessage} />
         </div>
+
     </div>);
 }
 export default DMroom;
