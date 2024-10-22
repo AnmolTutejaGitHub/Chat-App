@@ -4,6 +4,7 @@
     align-items: center;
     margin-top: 100px;
     margin-left: 15%;
+    padding: 8px;
 }
 
 .scroll-css-dm {
@@ -21,18 +22,34 @@
 }
 
 .DM-chat {
-    background-color: green;
-    padding: 1rem;
-    color: white;
-    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.7);
+    background-color: white;
+    backdrop-filter: blur(15.5px);
+    -webkit-backdrop-filter: blur(15.5px);
+    color: black;
+    padding: 2rem;
+    border-radius: 5px;
+    width: 300px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    font-size: 1.3rem;
+    font-weight: bolder;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .DM-chats {
-    margin-top: 30px;
+    margin-top: 70px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     flex-direction: row;
     gap: 2rem;
     cursor: pointer;
+    align-items: center;
+}
+
+.msg-icon {
+    font-size: 1.8rem;
 }

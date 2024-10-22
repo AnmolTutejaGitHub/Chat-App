@@ -314,6 +314,17 @@ app.post('/getFriends', async (req, res) => {
         res.status(400).send(e);
     }
 })
+
+app.get('/rooms', async (req, res) => {
+    try {
+        const rooms = await Room.find({});
+        const roomNames = rooms.map((room) => room.name);
+        res.status(200).send(roomNames);
+    } catch (e) {
+        res.status(400).send(e);
+    }
+})
+
 server.listen(PORT, () => {
     console.log(`listening on port ${PORT}`)
 })

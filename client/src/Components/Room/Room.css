@@ -28,7 +28,7 @@
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(15.5px);
     -webkit-backdrop-filter: blur(15.5px);
-    /* background-color: rgb(216, 175, 27); */
+    /* background-color: white; */
     padding: 1rem;
     cursor: pointer;
     position: fixed;

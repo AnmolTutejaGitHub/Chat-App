@@ -5,6 +5,7 @@ import { useContext, useEffect } from 'react';
 import UserContext from '../../Context/UserContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { FiMessageCircle } from "react-icons/fi";
 
 function DM() {
 
@@ -69,7 +70,10 @@ function DM() {
     }
 
     const renderFriends = friends.map((friend, index) => (
-        <div key={index} className="DM-chat" onClick={() => { handleFriendClick(friend) }}> <p>{user === friend ? "myself" : friend}</p> </div>
+        <div key={index} className="DM-chat" onClick={() => { handleFriendClick(friend) }}>
+            <p>{user === friend ? "myself" : friend}</p>
+            <FiMessageCircle className="msg-icon" />
+        </div>
     ));
 
     async function handleFriendClick(friend) {
