@@ -33,3 +33,24 @@
 .__main ::selection {
     background-color: greenyellow;
 }
+
+.chat-img {
+    height: 400px;
+}
+
+.chat-img-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    gap: 1rem;
+}
+
+.room-img-div {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    gap: 1rem;
+}

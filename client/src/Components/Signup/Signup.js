@@ -50,7 +50,7 @@ function Signup() {
                     <input placeholder="Enter Username" onChange={(e) => { setEnteredUser(e.target.value) }} className='login-input' required></input>
                     <input placeholder="Enter Email" onChange={(e) => { setEnteredEmail(e.target.value) }} className='login-input' required></input>
                     <input placeholder="Set Password" onChange={(e) => { setEnteredPassword(e.target.value) }} className='login-input' required></input>
-                    <p>Already have an Account ? <span><Link to="/">Login</Link></span></p>
+                    <p>Already have an Account ? <span><Link to="/" className='login-link'>Login</Link></span></p>
                     <button className='nav-btn' type="submit">Sign Up</button>
                     {Error && <p className='error'>*{Error}</p>}
                 </form>

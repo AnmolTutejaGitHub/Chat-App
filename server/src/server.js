@@ -32,7 +32,6 @@ const PORT = process.env.PORT || 6969;
 
 
 io.on('connection', (socket) => {
-    console.log('new websocket connection');
     socket.on('error', (error) => {
         console.error('WebSocket error:', error);
     });
@@ -63,8 +62,6 @@ io.on('connection', (socket) => {
 
             const connection = new Connection({ socket_id: socket.id, room_name: room, username: username });
             await connection.save();
-
-            console.log(`Connection saved for socket ID: ${socket.id}`);
 
         } catch (error) {
             console.error('Error saving connection:', error);

@@ -56,12 +56,17 @@ function DM() {
                 receiver: receiver,
                 room: sortedRoomName
             }
+
+            await fetchFriends();
+
             navigate(`DMroom`, { state: roomData });
         }
 
         else {
             setError('username does not exist in database');
         }
+
+        setUsername('');
     }
 
     async function fetchFriends() {
@@ -103,7 +108,7 @@ function DM() {
                         if (e.key === 'Enter') {
                             EstablishDM();
                         }
-                    }}></input>
+                    }} value={EnteredUsername}></input>
                     <FaSearch className='search-icon' onClick={EstablishDM} />
                 </div>
                 {error && <p className="error error-dm">*{error}</p>}

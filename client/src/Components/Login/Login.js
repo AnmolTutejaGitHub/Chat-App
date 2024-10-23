@@ -41,8 +41,8 @@ function Login() {
                 <input placeholder="Enter Username" onChange={(e) => { setEnteredUser(e.target.value) }} className='login-input' required></input>
                 <input placeholder="Enter Email" onChange={(e) => { setEnteredEmail(e.target.value) }} className='login-input' required></input>
                 <input placeholder="Enter Password" onChange={(e) => { setEnteredPassword(e.target.value) }} className='login-input' required></input>
-                <p>Don't have an Account ? <span><Link to="/signup">Signup</Link></span></p>
-                <button type="submit" className='nav-btn'>Login</button>
+                <p>Don't have an Account ? <span><Link to="/signup" className='login-link'>Signup</Link></span></p>
+                <button type="submit" className='nav-btn login-btn'>Login</button>
                 {Error && <p className='error'>*{Error}</p>}
             </form>
         </div>
