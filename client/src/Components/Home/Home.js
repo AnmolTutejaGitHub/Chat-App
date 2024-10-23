@@ -8,6 +8,7 @@ import { useContext, useEffect } from 'react';
 import UserContext from '../../Context/UserContext';
 import { BiLogOut } from "react-icons/bi";
 import Typewriter from 'typewriter-effect';
+import { GoHomeFill } from "react-icons/go";
 
 function Home() {
 
@@ -71,6 +72,7 @@ function Home() {
     return (
         <div className="home">
             <BiLogOut className="logout" onClick={logout} />
+            <GoHomeFill onClick={() => { navigate("/main") }} className='main-icon' />
             <div className='home__main'>
                 <div className='welcome' id="typewriter">
                     <Typewriter

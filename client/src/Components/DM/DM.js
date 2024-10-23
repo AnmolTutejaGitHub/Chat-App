@@ -6,7 +6,8 @@ import UserContext from '../../Context/UserContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FiMessageCircle } from "react-icons/fi";
-import { AiFillHome } from "react-icons/ai";
+import DMroom from "./DMroom";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 function DM() {
 
@@ -55,7 +56,7 @@ function DM() {
                 receiver: receiver,
                 room: sortedRoomName
             }
-            navigate('/DMroom', { state: roomData });
+            navigate(`DMroom`, { state: roomData });
         }
 
         else {
@@ -74,7 +75,7 @@ function DM() {
         <div key={index} className="DM-chat" onClick={() => { handleFriendClick(friend) }}>
             <img src={`https://ui-avatars.com/api/?name=${friend}`} className="friend-logo" />
             <p>{user === friend ? "myself" : friend}</p>
-            <FiMessageCircle className="msg-icon" />
+            {/* <FiMessageCircle className="msg-icon" /> */}
         </div >
     ));
 
@@ -91,23 +92,30 @@ function DM() {
             receiver: friend,
             room: sortedRoomName
         }
-        navigate('/DMroom', { state: roomData });
+        navigate(`DMroom`, { state: roomData });
     }
 
     return (
-        <div>
-            <AiFillHome className="home-icon" onClick={() => navigate('/home')} />
-            <div className='input-nav-box search-position'>
-                <input placeholder="Search by username...." className='nav-input' onChange={(e) => { setUsername(e.target.value); setError('') }} onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                        EstablishDM();
-                    }
-                }}></input>
-                <FaSearch className='search-icon' onClick={EstablishDM} />
+        <div className="DM-div">
+            <div className="DM-sidebar">
+                <div className='input-nav-box search-position'>
+                    <input placeholder="Search by username...." className='nav-input search-user-input' onChange={(e) => { setUsername(e.target.value); setError('') }} onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            EstablishDM();
+                        }
+                    }}></input>
+                    <FaSearch className='search-icon' onClick={EstablishDM} />
+                </div>
+                {error && <p className="error error-dm">*{error}</p>}
+                <div className="DM-chats">
+                    {renderFriends}
+                </div>
             </div>
-            {error && <p className="error error-dm">*{error}</p>}
-            <div className="DM-chats">
-                {renderFriends}
+
+            <div className="DMs">
+                <Routes>
+                    <Route path="DMroom" element={<DMroom />} />
+                </Routes>
             </div>
         </div>
     );

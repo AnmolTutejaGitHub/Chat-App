@@ -9,7 +9,7 @@ import ScrollToBottom from 'react-scroll-to-bottom';
 import { BiSolidExit } from "react-icons/bi";
 import { useNavigate } from 'react-router-dom';
 import { PiUploadSimpleBold } from "react-icons/pi";
-import { IoSend } from "react-icons/io5";
+import { AiFillHome } from "react-icons/ai";
 
 
 function DMroom() {
@@ -77,22 +77,22 @@ function DMroom() {
 
     function leaveRoom() {
         socket.disconnect();
-        navigate("/DM");
+        navigate("/main");
     }
 
-    return (<div>
-        <div className='room-name'>{roomData.sender == roomData.receiver ? "Myself" : roomData.receiver}
-            <BiSolidExit className='leave-btn' onClick={leaveRoom} />
+    return (<div className="dmroom">
+        <div className='room-name-DM'>{roomData.sender == roomData.receiver ? "Myself" : roomData.receiver}
+            <AiFillHome className="home-icon" onClick={leaveRoom} />
         </div>
         <ScrollToBottom className='scroll-css-dm'>
             <div className='messages dm-messages'>{renderMessages}</div>
         </ScrollToBottom>
-        <div className='send-div'>
-            <div className='input-msg'>
-                <input className='send-input' onChange={(e) => setEnteredValue(e.target.value)} value={enteredValue} onKeyPress={InputEnterMessageSend}></input>
-                <PiUploadSimpleBold className='file-upload' />
+        <div className='send-div-DM'>
+            <div className='input-msg-DM'>
+                <input className='send-input-DM' onChange={(e) => setEnteredValue(e.target.value)} value={enteredValue} onKeyPress={InputEnterMessageSend}></input>
             </div>
-            <IoSend className='send-btn' onClick={sendMessage} />
+            <div className='send-btn-DM' onClick={sendMessage}>Send</div>
+            {/* <IoSend className='send-btn-DM' onClick={sendMessage} /> */}
         </div>
 
     </div>);

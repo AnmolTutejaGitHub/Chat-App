@@ -2,14 +2,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 100px;
-    margin-left: 15%;
-    padding: 4px;
+    margin-left: 10px;
+    padding: 0px 3px;
+    width: 95%;
 }
 
 .scroll-css-dm {
     height: 100vh;
-    width: 100vw;
 }
 
 .dm-messages {
@@ -22,21 +21,24 @@
 }
 
 .DM-chat {
-    background: rgba(255, 255, 255, 0.7);
-    background-color: white;
-    backdrop-filter: blur(15.5px);
-    -webkit-backdrop-filter: blur(15.5px);
-    color: black;
-    padding: 2rem;
-    border-radius: 5px;
-    width: 300px;
+    /* background-color: white; */
+    /* background: rgba(255, 255, 255, 0.7); */
+    /* backdrop-filter: blur(15.5px);
+    -webkit-backdrop-filter: blur(15.5px); */
+    color: white;
+    background-color: #0D141A;
+    padding: 1.2rem;
+    border-radius: 4px;
+    width: 100%;
     padding-top: 15px;
     padding-bottom: 15px;
-    font-size: 1.3rem;
+    font-size: 1.123rem;
     font-weight: bolder;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
+    border: 1px solid black;
+    gap: 1rem;
 }
 
 .DM-chats {
@@ -44,8 +46,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    flex-direction: row;
-    gap: 2rem;
+    flex-direction: column;
+    gap: 7px;
     cursor: pointer;
     align-items: center;
 }
@@ -56,14 +58,91 @@
 
 .friend-logo {
     border-radius: 50%;
-    height: 53px;
+    height: 43px;
+}
+
+.DM-div {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.DM-sidebar {
+    width: 28%;
+    padding: 20px;
+    /* background-color: #333744;
+    background-color: #111B21; */
+    background-color: #111B21;
+    max-height: 100vh;
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+.search-user-input {
+    width: 120%;
+}
+
+.DMs {
+    width: 72%;
+}
+
+.dmroom {
+    /* background-color: #34373C; */
+    background-color: #0C141A;
+}
+
+.send-div-DM {
+    position: absolute;
+    bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+    justify-content: center;
+    align-items: center;
+    padding-left: 3rem;
+}
+
+.input-msg-DM {
+    width: 100%;
+}
+
+.send-input-DM {
+    padding: 0.5rem;
+    outline: none;
+    width: 100%;
+}
+
+.send-div-DM {
+    width: 68%;
+}
+
+.send-btn-DM {
+    color: green;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.room-name-DM {
+    font-size: 1rem;
+    color: #008001;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(15.5px);
+    -webkit-backdrop-filter: blur(15.5px);
+    background-color: white;
+    padding: 1rem;
+    cursor: pointer;
+    position: fixed;
+    top: 0px;
+    width: 72%;
+    z-index: 9999;
 }
 
 .home-icon {
-    color: white;
-    font-size: 2rem;
+    color: green;
+    font-size: 1.8rem;
     position: absolute;
-    top: 20px;
+    top: 10px;
     right: 30px;
     cursor: pointer;
 }

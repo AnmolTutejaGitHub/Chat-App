@@ -106,7 +106,7 @@ function Room() {
 
     function leaveRoom() {
         socket.disconnect();
-        navigate("/home");
+        navigate("/main");
     }
 
     return (
