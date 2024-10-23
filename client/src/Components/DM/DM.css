@@ -4,7 +4,7 @@
     align-items: center;
     margin-top: 100px;
     margin-left: 15%;
-    padding: 8px;
+    padding: 4px;
 }
 
 .scroll-css-dm {
@@ -30,8 +30,8 @@
     padding: 2rem;
     border-radius: 5px;
     width: 300px;
-    padding-top: 25px;
-    padding-bottom: 25px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     font-size: 1.3rem;
     font-weight: bolder;
     display: flex;
@@ -52,4 +52,18 @@
 
 .msg-icon {
     font-size: 1.8rem;
+}
+
+.friend-logo {
+    border-radius: 50%;
+    height: 53px;
+}
+
+.home-icon {
+    color: white;
+    font-size: 2rem;
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    cursor: pointer;
 }

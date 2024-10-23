@@ -9,3 +9,7 @@ body {
     background-color: #333744;
     background-color: #34373C;
 }
+
+.light-mode {
+    background-color: white;
+}

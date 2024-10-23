@@ -6,6 +6,7 @@ import UserContext from '../../Context/UserContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FiMessageCircle } from "react-icons/fi";
+import { AiFillHome } from "react-icons/ai";
 
 function DM() {
 
@@ -71,9 +72,10 @@ function DM() {
 
     const renderFriends = friends.map((friend, index) => (
         <div key={index} className="DM-chat" onClick={() => { handleFriendClick(friend) }}>
+            <img src={`https://ui-avatars.com/api/?name=${friend}`} className="friend-logo" />
             <p>{user === friend ? "myself" : friend}</p>
             <FiMessageCircle className="msg-icon" />
-        </div>
+        </div >
     ));
 
     async function handleFriendClick(friend) {
@@ -94,6 +96,7 @@ function DM() {
 
     return (
         <div>
+            <AiFillHome className="home-icon" onClick={() => navigate('/home')} />
             <div className='input-nav-box search-position'>
                 <input placeholder="Search by username...." className='nav-input' onChange={(e) => { setUsername(e.target.value); setError('') }} onKeyDown={(e) => {
                     if (e.key === 'Enter') {

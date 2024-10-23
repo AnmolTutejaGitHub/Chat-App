@@ -7,6 +7,7 @@ import { FaSearch } from "react-icons/fa";
 import { useContext, useEffect } from 'react';
 import UserContext from '../../Context/UserContext';
 import { BiLogOut } from "react-icons/bi";
+import Typewriter from 'typewriter-effect';
 
 function Home() {
 
@@ -71,7 +72,18 @@ function Home() {
         <div className="home">
             <BiLogOut className="logout" onClick={logout} />
             <div className='home__main'>
-                <div className='welcome'>Welcome {user}</div>
+                <div className='welcome' id="typewriter">
+                    <Typewriter
+                        onInit={(typewriter) => {
+                            typewriter.typeString(`Welcome ${user} `)
+                                .pauseFor(2500)
+                                .deleteAll()
+                                .typeString(`Welcome ${user} `)
+                                .start()
+                                ;
+                        }}
+                    />
+                </div>
                 <div className="nav-search">
                     <div className='input-nav-box'>
                         <input placeholder="Search for Rooms..." className='nav-input' onChange={(e) => { setSearchRoom(e.target.value); setSearchError(''); }} onKeyDown={(e) => {
