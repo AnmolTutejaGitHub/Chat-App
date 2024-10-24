@@ -12,6 +12,10 @@ const Connection = require('../database/Models/Connection');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('cloudinary').v2;
+
 
 app.use(cors({
     origin: `${process.env.FRONTEND_URL}`,
@@ -333,6 +337,28 @@ app.post('/resetPassword', async (req, res) => {
         res.status(400).send(e);
     }
 })
+
+
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'uploads',
+        resource_type: 'auto',
+    }
+});
+
+const upload = multer({ storage: storage, limits: { fileSize: 10000000 } });
+
+app.post('/fileupload', upload.single('uploadfile'), (req, res) => {
+    res.send({ message: 'File uploaded successfully!', url: req.file.path });
+});
 
 server.listen(PORT, () => {
     console.log(`listening on port ${PORT}`)
