@@ -9,6 +9,7 @@ import Login from "../Login/Login";
 import Signup from "../Signup/Signup";
 import OTPValidation from "../OTPValidation/OTPValidation";
 import Main from "../Main/Main";
+import ForgetPassword from "../Login/ForgetPassword";
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                     <Route path="/DM/*" element={<DM />} />
                     <Route path="/OTPValidation" element={<OTPValidation />}></Route>
                     <Route path="/main" element={<Main />} />
+                    <Route path="forgetpassword" element={<ForgetPassword />} />
                 </Routes>
             </BrowserRouter>
         </div>

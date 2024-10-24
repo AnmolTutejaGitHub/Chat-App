@@ -22,7 +22,7 @@ function Login() {
 
             if (response.status === 200) {
                 const token = response.data.token;
-                console.log(token);
+                //console.log(token);
                 //localStorage.setItem('token', token);
                 setUser(EnteredUser);
                 //navigate('/home');
@@ -41,6 +41,7 @@ function Login() {
                 <input placeholder="Enter Username" onChange={(e) => { setEnteredUser(e.target.value) }} className='login-input' required></input>
                 <input placeholder="Enter Email" onChange={(e) => { setEnteredEmail(e.target.value) }} className='login-input' required></input>
                 <input placeholder="Enter Password" onChange={(e) => { setEnteredPassword(e.target.value) }} className='login-input' required></input>
+                <div className='login-link forget-pass'><Link to="/forgetpassword" className='login-link'>Forget Password?</Link></div>
                 <p>Don't have an Account ? <span><Link to="/signup" className='login-link'>Signup</Link></span></p>
                 <button type="submit" className='nav-btn login-btn'>Login</button>
                 {Error && <p className='error'>*{Error}</p>}

@@ -35,3 +35,13 @@
 .login-link {
     color: green;
 }
+
+.forget-pass {
+    cursor: pointer;
+}
+
+.forget-password-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
