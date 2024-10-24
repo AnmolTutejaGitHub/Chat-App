@@ -103,7 +103,7 @@
 }
 
 .input-msg-DM {
-    width: 100%;
+    width: 90%;
 }
 
 .send-input-DM {
@@ -145,4 +145,33 @@
     top: 10px;
     right: 30px;
     cursor: pointer;
+}
+
+.clip {
+    color: green;
+}
+
+.input-msg-DM {
+    display: flex;
+    background-color: #1F2C33;
+}
+
+.uploadform {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.uploadbtn {
+    background: transparent;
+    outline: none;
+    border: none;
+    font-weight: bolder;
+    color: green;
+    font-size: 0.9rem;
+}
+
+.upload-icon {
+    font-size: 1.8rem;
 }

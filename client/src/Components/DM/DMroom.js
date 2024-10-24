@@ -10,7 +10,9 @@ import { BiSolidExit } from "react-icons/bi";
 import { useNavigate } from 'react-router-dom';
 import { PiUploadSimpleBold } from "react-icons/pi";
 import { AiFillHome } from "react-icons/ai";
-
+import { ToastContainer, toast } from 'react-toastify';
+import { FaPaperclip } from 'react-icons/fa';
+import { MdUpload } from "react-icons/md";
 
 function DMroom() {
     const SOCKET_SERVER_URL = `${process.env.REACT_APP_BACKEND_URL}`;
@@ -21,7 +23,8 @@ function DMroom() {
     const [enteredValue, setEnteredValue] = useState('');
     const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
-
+    const [sending, setSending] = useState(false);
+    const notify = (text) => toast(text);
 
     const renderMessages = messages.map((msg, index) => {
         return <div key={index}>{msg}</div>;
@@ -80,6 +83,39 @@ function DMroom() {
         navigate("/main");
     }
 
+
+    const handleFileSubmit = async (e) => {
+        e.preventDefault();
+        setSending(true);
+
+        const fileInput = e.target.elements.uploadfile;
+        const file = fileInput.files[0];
+
+        if (!file) {
+            notify('Please select a file');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('uploadfile', file);
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/fileupload`, {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            socket.emit('SendDMMessage', { room_name: roomData.room, msg: result.url, sender: roomData.sender });
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setSending(false);
+        }
+    };
+
+
     return (<div className="dmroom">
         <div className='room-name-DM'>{roomData.sender == roomData.receiver ? "Myself" : roomData.receiver}
             <AiFillHome className="home-icon" onClick={leaveRoom} />
@@ -90,9 +126,17 @@ function DMroom() {
         <div className='send-div-DM'>
             <div className='input-msg-DM'>
                 <input className='send-input-DM' onChange={(e) => setEnteredValue(e.target.value)} value={enteredValue} onKeyPress={InputEnterMessageSend}></input>
+                <form onSubmit={handleFileSubmit} encType="multipart/form-data" className="uploadform">
+                    <input type="file" name="uploadfile" id="uploadfile" style={{ display: 'none' }} />
+                    <label htmlFor="uploadfile" style={{ cursor: 'pointer' }}>
+                        <FaPaperclip size={24} className="clip" />
+                    </label>
+                    <button type="submit" disabled={sending} className="uploadbtn">
+                        <MdUpload className="upload-icon" />
+                    </button>
+                </form>
             </div>
             <div className='send-btn-DM' onClick={sendMessage}>Send</div>
-            {/* <IoSend className='send-btn-DM' onClick={sendMessage} /> */}
         </div>
 
     </div>);
