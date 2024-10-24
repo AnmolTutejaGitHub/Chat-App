@@ -108,3 +108,7 @@
     display: flex;
     align-items: center;
 }
+
+.msg-url {
+    color: rgb(35, 140, 175);
+}

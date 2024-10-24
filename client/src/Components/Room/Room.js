@@ -10,7 +10,8 @@ import Messagejsx from './Messagejsx';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { BiSolidExit } from "react-icons/bi";
 import { useNavigate } from 'react-router-dom';
-import { PiUploadSimpleBold } from "react-icons/pi";
+import { FaPaperclip } from 'react-icons/fa';
+import { MdUpload } from "react-icons/md";
 
 function Room() {
 
@@ -109,6 +110,34 @@ function Room() {
         navigate("/main");
     }
 
+    const handleFileSubmit = async (e) => {
+        e.preventDefault();
+
+        const fileInput = e.target.elements.uploadfile;
+        const file = fileInput.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('uploadfile', file);
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/fileupload`, {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            socket.emit('SendMessage', { room_name: roomData.room_name, msg: result.url, username: user });
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+
     return (
         <div className='room-div'>
             <div className='sidebar'>{renderUsers}</div>
@@ -123,7 +152,15 @@ function Room() {
             <div className='send-div'>
                 <div className='input-msg'>
                     <input className='send-input' onChange={(e) => setEnteredValue(e.target.value)} value={enteredValue} onKeyPress={InputEnterMessageSend}></input>
-                    <PiUploadSimpleBold className='file-upload' />
+                    <form onSubmit={handleFileSubmit} encType="multipart/form-data" className="uploadform">
+                        <input type="file" name="uploadfile" id="uploadfile" style={{ display: 'none' }} />
+                        <label htmlFor="uploadfile" style={{ cursor: 'pointer' }}>
+                            <FaPaperclip size={24} className="clip" />
+                        </label>
+                        <button type="submit" className="uploadbtn">
+                            <MdUpload className="upload-icon" />
+                        </button>
+                    </form>
                 </div>
                 <IoSend className='send-btn' onClick={sendMessage} />
             </div>
