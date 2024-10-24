@@ -103,7 +103,8 @@ io.on('connection', (socket) => {
             month: 'short',
             hour: 'numeric',
             minute: 'numeric',
-            hour12: true
+            hour12: true,
+            timeZone: 'Asia/Kolkata'
         });
 
         io.to(room_name).emit('DMMessage', { msg, sender, timestamp });
