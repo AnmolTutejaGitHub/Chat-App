@@ -54,7 +54,7 @@ io.on('connection', (socket) => {
                 month: 'short',
                 hour: 'numeric',
                 minute: 'numeric',
-                hour12: true
+                timeZone: 'Asia/Kolkata'
             });
 
             io.to(room).emit('message', { msg: `${username} has joined`, username: null, timestamp });
@@ -79,7 +79,7 @@ io.on('connection', (socket) => {
             month: 'short',
             hour: 'numeric',
             minute: 'numeric',
-            hour12: true
+            timeZone: 'Asia/Kolkata'
         });
         io.to(room_name).emit('message', { msg, username, timestamp });
         const message = new Message({ room_name, message: msg, username, timestamp });
@@ -103,7 +103,6 @@ io.on('connection', (socket) => {
             month: 'short',
             hour: 'numeric',
             minute: 'numeric',
-            hour12: true,
             timeZone: 'Asia/Kolkata'
         });
 
@@ -123,7 +122,7 @@ io.on('connection', (socket) => {
                 month: 'short',
                 hour: 'numeric',
                 minute: 'numeric',
-                hour12: true
+                timeZone: 'Asia/Kolkata'
             });
 
             io.to(room).emit('message', { msg: `${connection?.username} has left`, username: null, timestamp });
