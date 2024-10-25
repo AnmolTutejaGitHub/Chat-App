@@ -72,7 +72,7 @@ function Home() {
 
     async function generateRoomUrl() {
         const unique_id = uuidv4();
-        const url = `${process.env.REACT_APP_BACKEND_URL}/r/${unique_id}`;
+        const url = `${process.env.REACT_APP_FRONTEND_URL}/room/?room_name=${unique_id}`;
         setRoom_url(url);
         try {
             const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/createRoom`, {
@@ -128,8 +128,8 @@ function Home() {
                 </div>
 
                 <div className='room-url'>
-                    <div className='generate-room-url'>Generate Room urls</div>
-                    <button onClick={generateRoomUrl}>Create</button>
+                    <div className='generate-room-url'>Generate Room URL</div>
+                    <button onClick={generateRoomUrl} className='nav-btn create-url'>Create</button>
                     <div>{room_url}</div>
                 </div>
 

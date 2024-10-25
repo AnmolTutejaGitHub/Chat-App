@@ -133,5 +133,25 @@
 }
 
 .generate-room-url {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: bolder;
+    padding: 1rem;
+    flex-wrap: wrap;
+}
+
+.room-url {
+    background-color: #212E35;
     color: white;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+}
+
+.create-url {
+    max-width: 100px;
 }
