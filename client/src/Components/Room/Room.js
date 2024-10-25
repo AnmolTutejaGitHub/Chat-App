@@ -36,7 +36,7 @@ function Room() {
     });
 
     useEffect(() => {
-        if (!user) navigate('/');
+        if (!user && !searchParams.has('room_name')) navigate('/');
     }, []);
 
     useEffect(() => {
