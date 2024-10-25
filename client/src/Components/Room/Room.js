@@ -1,4 +1,4 @@
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation, useSearchParams } from 'react-router-dom';
 import './Room.css';
 import { io } from "socket.io-client";
 import { useEffect, useState } from 'react';
@@ -17,7 +17,7 @@ function Room() {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const roomData = location.state;
+    //const roomData = location.state;
     const { user, setUser } = useContext(UserContext);
 
     const [Users, setUsers] = useState([]);
@@ -28,9 +28,16 @@ function Room() {
     const [messages, setMessages] = useState([]);
     const [enteredValue, setEnteredValue] = useState('');
 
+    const [searchParams] = useSearchParams();
+    const roomData = location.state || { room_name: searchParams.get('room_name') };
+
     const renderMessages = messages.map((msg, index) => {
         return <div key={index}>{msg}</div>;
     });
+
+    useEffect(() => {
+        if (!user) navigate('/');
+    }, []);
 
     useEffect(() => {
         getHistory();

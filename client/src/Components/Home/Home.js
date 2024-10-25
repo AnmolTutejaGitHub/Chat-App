@@ -9,6 +9,7 @@ import UserContext from '../../Context/UserContext';
 import { BiLogOut } from "react-icons/bi";
 import Typewriter from 'typewriter-effect';
 import { GoHomeFill } from "react-icons/go";
+import { v4 as uuidv4 } from 'uuid';
 
 function Home() {
     const navigate = useNavigate();
@@ -18,6 +19,7 @@ function Home() {
     const [SearchRoom, setSearchRoom] = useState('');
     const [searchError, setSearchError] = useState('');
     const { user, setUser } = useContext(UserContext);
+    const [room_url, setRoom_url] = useState('');
 
     useEffect(() => {
         if (!user) logout();
@@ -68,6 +70,19 @@ function Home() {
         navigate('/');
     }
 
+    async function generateRoomUrl() {
+        const unique_id = uuidv4();
+        const url = `${process.env.REACT_APP_BACKEND_URL}/r/${unique_id}`;
+        setRoom_url(url);
+        try {
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/createRoom`, {
+                room_name: unique_id
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
 
     return (
         <div className="home">
@@ -112,7 +127,12 @@ function Home() {
                     {searchError && <div className='error'>*{searchError}</div>}
                 </div>
 
-                <div className='rooms'></div>
+                <div className='room-url'>
+                    <div className='generate-room-url'>Generate Room urls</div>
+                    <button onClick={generateRoomUrl}>Create</button>
+                    <div>{room_url}</div>
+                </div>
+
             </div>
         </div>
     );
