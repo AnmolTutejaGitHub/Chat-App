@@ -61,4 +61,8 @@
     .chat-img-div {
         display: none;
     }
+
+    .nav-conversations {
+        margin-left: 30px;
+    }
 }

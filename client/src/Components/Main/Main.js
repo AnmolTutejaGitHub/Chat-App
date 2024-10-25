@@ -5,7 +5,6 @@ import UserContext from '../../Context/UserContext';
 import './Main.css';
 import { useNavigate } from 'react-router-dom';
 import chatImg from '../../Assests/Chat-Screenshot.png';
-import roomImg from '../../Assests/Room-screenshot-2.png'
 
 function Main() {
     const [firstTypewriterDone, setFirstTypewriterDone] = useState(false);
