@@ -11,7 +11,6 @@ import Typewriter from 'typewriter-effect';
 import { GoHomeFill } from "react-icons/go";
 
 function Home() {
-
     const navigate = useNavigate();
     const [CreateRoom, setCreateRoom] = useState('');
     const [CreateRoomModal, setCreateRoomModal] = useState(false);
@@ -64,6 +63,7 @@ function Home() {
 
     function logout() {
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
         setUser('');
         navigate('/');
     }

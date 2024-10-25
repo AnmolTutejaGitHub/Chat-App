@@ -12,6 +12,10 @@ function Login() {
     const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (user) navigate('/main');
+    }, [])
+
     async function handleLogin() {
         try {
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/login`, {
@@ -23,7 +27,7 @@ function Login() {
             if (response.status === 200) {
                 const token = response.data.token;
                 //console.log(token);
-                //localStorage.setItem('token', token);
+                localStorage.setItem('token', token);
                 setUser(EnteredUser);
                 //navigate('/home');
                 navigate('/OTPValidation', { state: { email: EnteredEmail } });

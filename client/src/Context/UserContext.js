@@ -19,6 +19,7 @@
 // will implement cokkie later i dont need user to reset on refresh 
 // Problem : usercontext set to null on refresh if using token it  and storing it in localstorage same prob + 
 import { createContext, useState, useEffect } from "react";
+import axios from "axios";
 
 const UserContext = createContext();
 
@@ -26,6 +27,22 @@ function Provider({ children }) {
     const [user, setUser] = useState(() => {
         return sessionStorage.getItem('user') || null;
     });
+
+    async function decodeToken() {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.post('/verifytokenAndGetUsername', {
+                token: token
+            });
+            if (response.status === 200) setUser(response.data.user);
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    useEffect(() => {
+        decodeToken();
+    })
 
     useEffect(() => {
         if (user) {

@@ -1,14 +1,12 @@
 import { io } from "socket.io-client";
 import Messagejsx from "../Room/Messagejsx";
-import { Navigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useState } from "react";
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect } from 'react';
 import axios from 'axios';
 import UserContext from '../../Context/UserContext';
 import ScrollToBottom from 'react-scroll-to-bottom';
-import { BiSolidExit } from "react-icons/bi";
 import { useNavigate } from 'react-router-dom';
-import { PiUploadSimpleBold } from "react-icons/pi";
 import { AiFillHome } from "react-icons/ai";
 import { ToastContainer, toast } from 'react-toastify';
 import { FaPaperclip } from 'react-icons/fa';
