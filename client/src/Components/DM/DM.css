@@ -82,10 +82,6 @@
     width: 120%;
 }
 
-.DMs {
-    width: 72%;
-}
-
 .dmroom {
     /* background-color: #34373C; */
     background-color: #0C141A;
@@ -175,4 +171,53 @@
 
 .upload-icon {
     font-size: 1.8rem;
+}
+
+.desktop-dms {
+    width: 72%;
+}
+
+
+.mobile-dms {
+    display: none;
+}
+
+.desktop-dms {
+    display: block;
+}
+
+@media screen and (max-width: 580px) {
+    .desktop-dms {
+        display: none;
+    }
+
+    /* /dm */
+    .DM-sidebar {
+        width: 100vw;
+    }
+
+    .mobile-dms {
+        display: none;
+    }
+
+
+    /* /dm/dmroom */
+    .show-messages .DM-sidebar {
+        display: none;
+    }
+
+    .show-messages .mobile-dms {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .room-name-DM {
+        width: 100%;
+    }
+
+    .send-div-DM {
+        width: 85%;
+        margin-bottom: 15px;
+    }
 }

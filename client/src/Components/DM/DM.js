@@ -5,9 +5,9 @@ import { useContext, useEffect } from 'react';
 import UserContext from '../../Context/UserContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FiMessageCircle } from "react-icons/fi";
 import DMroom from "./DMroom";
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 function DM() {
 
@@ -16,6 +16,8 @@ function DM() {
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const [friends, setFriends] = useState([]);
+    const location = useLocation();
+    const isDMRoom = location.pathname.includes('/DMroom');
 
 
     useEffect(() => {
@@ -101,7 +103,7 @@ function DM() {
     }
 
     return (
-        <div className="DM-div">
+        <div className={`DM-div ${isDMRoom ? 'show-messages' : ''}`}>
             <div className="DM-sidebar">
                 <div className='input-nav-box search-position'>
                     <input placeholder="Search by username...." className='nav-input search-user-input' onChange={(e) => { setUsername(e.target.value); setError('') }} onKeyDown={(e) => {
@@ -117,11 +119,19 @@ function DM() {
                 </div>
             </div>
 
-            <div className="DMs">
-                <Routes>
-                    <Route path="DMroom" element={<DMroom />} />
-                </Routes>
-            </div>
+            <>
+                <div className="desktop-dms">
+                    <Routes>
+                        <Route path="DMroom" element={<DMroom />} />
+                    </Routes>
+                </div>
+
+                <div className="mobile-dms">
+                    <Routes>
+                        <Route path="DMroom" element={<DMroom />} />
+                    </Routes>
+                </div>
+            </>
         </div>
     );
 }

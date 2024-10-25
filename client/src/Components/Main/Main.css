@@ -35,7 +35,7 @@
 }
 
 .chat-img {
-    height: 400px;
+    max-height: 400px;
 }
 
 .chat-img-div {
@@ -44,6 +44,7 @@
     align-items: center;
     margin-top: 40px;
     gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .room-img-div {
@@ -53,4 +54,11 @@
     align-items: center;
     margin-top: 100px;
     gap: 1rem;
+}
+
+
+@media screen and (max-width:730px) {
+    .chat-img-div {
+        display: none;
+    }
 }
