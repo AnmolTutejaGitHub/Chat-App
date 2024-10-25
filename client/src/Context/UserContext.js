@@ -42,7 +42,7 @@ function Provider({ children }) {
 
     useEffect(() => {
         decodeToken();
-    })
+    }, [])
 
     useEffect(() => {
         if (user) {

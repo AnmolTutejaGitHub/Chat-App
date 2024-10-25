@@ -14,7 +14,7 @@ function Login() {
 
     useEffect(() => {
         if (user) navigate('/main');
-    }, [])
+    }, [user])
 
     async function handleLogin() {
         try {
