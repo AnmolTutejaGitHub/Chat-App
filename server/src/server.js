@@ -188,7 +188,7 @@ app.post('/login', async (req, res) => {
             return res.status(400).send({ error: "Invalid Credentials" });
         }
 
-        const token = jwt.sign({ user_id: user._id }, "tokensecret", { expiresIn: '5d' });
+        const token = jwt.sign({ user_id: user._id }, `${process.env.TOKEN_SECRET}`, { expiresIn: '30d' });
         res.status(200).send({ token });
     } catch (e) {
         res.status(500).send({ error: e.message });
@@ -200,7 +200,7 @@ app.post('/signups', async (req, res) => {
     try {
         const user = new User({ email, password, name });
         await user.save();
-        const token = jwt.sign({ user_id: user._id }, "tokensecret", { expiresIn: '5d' });
+        const token = jwt.sign({ user_id: user._id }, `${process.env.TOKEN_SECRET}`, { expiresIn: '30d' });
         res.status(200).send({ token });
     } catch (e) {
         res.status(400).send({ error: e.message });
@@ -211,7 +211,7 @@ app.post('/verifytokenAndGetUsername', async (req, res) => {
     const { token } = req.body;
 
     try {
-        const decoded = jwt.verify(token, 'tokensecret');
+        const decoded = jwt.verify(token, `${process.env.TOKEN_SECRET}`);
         const user = await User.findById(decoded.user_id);
 
         if (!user) {

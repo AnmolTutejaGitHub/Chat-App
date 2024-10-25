@@ -61,6 +61,7 @@ Create a `.env` file in the `server` directory with the following content:
 NODEMAIL_APP_PASSWORD=your_nodemailer_password
 MONGODB_URL=your_mongodb_connection_string
 FRONTEND_URL=http://localhost:3000  # Replace with your deployed frontend URL
+TOKEN_SECRET=YOUR_JWT_TOKEN_SECRET
 CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
