@@ -78,7 +78,7 @@ function DM() {
         setFriends(response.data);
     }
 
-    const renderFriends = friends.map((friend, index) => (
+    const renderFriends = friends.filter((friend) => friend !== user).map((friend, index) => (
         <div key={index} className="DM-chat" onClick={() => { handleFriendClick(friend) }}>
             <img src={`https://ui-avatars.com/api/?name=${friend}`} className="friend-logo" />
             <p>{user === friend ? "myself" : friend}</p>

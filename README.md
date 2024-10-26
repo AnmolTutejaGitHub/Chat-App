@@ -51,6 +51,7 @@ Create a `.env` file in the `client` directory with the following content:
 ```env
 REACT_APP_BACKEND_URL=http://localhost:6969  # OR Your backend url
 REACT_APP_BACKEND_SOCKET_URL=localhost:6969  
+REACT_APP_FRONTEND_URL=
 ```
 
 ### Backend Environment Variables:

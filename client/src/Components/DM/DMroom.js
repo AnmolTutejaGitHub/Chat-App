@@ -86,8 +86,10 @@ function DMroom() {
         e.preventDefault();
         setSending(true);
 
-        const fileInput = e.target.elements.uploadfile;
+        const fileInput = document.getElementById('uploadfile');
+        //const fileInput = e.target.elements.uploadfile;
         const file = fileInput.files[0];
+        console.log(file);
 
         if (!file) {
             notify('Please select a file');
@@ -115,6 +117,7 @@ function DMroom() {
 
 
     return (<div className="dmroom">
+        <ToastContainer />
         <div className='room-name-DM'>{roomData.sender == roomData.receiver ? "Myself" : roomData.receiver}
             <AiFillHome className="home-icon" onClick={leaveRoom} />
         </div>

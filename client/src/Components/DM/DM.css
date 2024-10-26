@@ -220,4 +220,8 @@
         width: 85%;
         bottom: 0;
     }
+
+    .messages {
+        margin-bottom: 20px;
+    }
 }

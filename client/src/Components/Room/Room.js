@@ -66,6 +66,7 @@ function Room() {
 
 
     function sendMessage() {
+        if (!user) navigate('/');
         socket.emit('SendMessage', { room_name: roomData.room_name, msg: enteredValue, username: user });
         setEnteredValue('');
     }
@@ -120,7 +121,8 @@ function Room() {
     const handleFileSubmit = async (e) => {
         e.preventDefault();
 
-        const fileInput = e.target.elements.uploadfile;
+        //const fileInput = e.target.elements.uploadfile;
+        const fileInput = document.getElementById('uploadfile');
         const file = fileInput.files[0];
 
         if (!file) {

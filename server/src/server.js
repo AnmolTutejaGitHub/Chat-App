@@ -61,7 +61,7 @@ io.on('connection', (socket) => {
             io.to(room).emit('userJoined', { room });
 
 
-            const message = new Message({ room_name: room, message: `${username} has joined`, username: null, timestamp });
+            const message = new Message({ room_name: room, message: `${username} has joined`, username: null, timestamp, date: date });
             await message.save();
 
             const connection = new Connection({ socket_id: socket.id, room_name: room, username: username });
@@ -82,7 +82,7 @@ io.on('connection', (socket) => {
             timeZone: 'Asia/Kolkata'
         });
         io.to(room_name).emit('message', { msg, username, timestamp });
-        const message = new Message({ room_name, message: msg, username, timestamp });
+        const message = new Message({ room_name, message: msg, username, timestamp, date: date });
         await message.save();
     })
 
@@ -107,7 +107,7 @@ io.on('connection', (socket) => {
         });
 
         io.to(room_name).emit('DMMessage', { msg, sender, timestamp });
-        const message = new Message({ room_name, message: msg, username: sender, timestamp });
+        const message = new Message({ room_name, message: msg, username: sender, timestamp, date: date });
         await message.save();
     })
 
@@ -128,7 +128,7 @@ io.on('connection', (socket) => {
             io.to(room).emit('message', { msg: `${connection?.username} has left`, username: null, timestamp });
             io.to(room).emit('userLeft', { room });
 
-            const message = new Message({ room_name: room, message: `${connection?.username} has left`, username: null, timestamp });
+            const message = new Message({ room_name: room, message: `${connection?.username} has left`, username: null, timestamp, date: date });
             await message.save();
 
         } catch (e) {
@@ -152,7 +152,7 @@ app.post('/createRoom', async (req, res) => {
 app.post('/roomMessages', async (req, res) => {
     const room = req.body.room_name;
     try {
-        const messages = await Message.find({ room_name: room }).sort({ timestamp: 1 });
+        const messages = await Message.find({ room_name: room }).sort({ date: 1 });
         res.send(messages);
     } catch (err) {
         res.status(400).send(e);
