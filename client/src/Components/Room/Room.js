@@ -12,6 +12,9 @@ import { BiSolidExit } from "react-icons/bi";
 import { useNavigate } from 'react-router-dom';
 import { FaPaperclip } from 'react-icons/fa';
 import { MdUpload } from "react-icons/md";
+import { ReactMediaRecorder } from "react-media-recorder";
+import { AiOutlineAudioMuted } from "react-icons/ai";
+import { AiOutlineAudio } from "react-icons/ai";
 
 function Room() {
 
@@ -30,6 +33,8 @@ function Room() {
 
     const [searchParams] = useSearchParams();
     const roomData = location.state || { room_name: searchParams.get('room_name') };
+
+    const [recording, setRecording] = useState(false);
 
     const renderMessages = messages.map((msg, index) => {
         return <div key={index}>{msg}</div>;
@@ -146,6 +151,29 @@ function Room() {
         }
     };
 
+    const sendAudio = async (mediaBlobUrl) => {
+        try {
+            const response = await fetch(mediaBlobUrl);
+            const blob = await response.blob();
+            const file = new File([blob], "recording.mp3", { type: "audio/mpeg" });
+
+            const formData = new FormData();
+            formData.append('uploadfile', file);
+
+            const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/fileupload`, {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await res.json();
+            socket.emit('SendMessage', { room_name: roomData.room_name, msg: result.url, username: user });
+
+            console.log("Audio sent successfully");
+        } catch (error) {
+            console.error("Error sending audio:", error);
+        }
+    }
+
 
     return (
         <div className='room-div'>
@@ -169,6 +197,27 @@ function Room() {
                         <button type="submit" className="uploadbtn">
                             <MdUpload className="upload-icon" />
                         </button>
+                        <ReactMediaRecorder
+                            audio
+                            onStop={(blobUrl) => sendAudio(blobUrl)}
+                            render={({ status, startRecording, stopRecording, mediaBlobUrl }) => (
+                                <div>
+                                    <button className="audio-btn"
+                                        onClick={() => {
+                                            if (status === 'idle' || status === 'stopped') {
+                                                setRecording(true);
+                                                startRecording();
+                                            } else {
+                                                stopRecording();
+                                                setRecording(false);
+                                            }
+                                        }}
+                                    >
+                                        {recording ? <AiOutlineAudio /> : <AiOutlineAudioMuted />}
+                                    </button>
+                                </div>
+                            )}
+                        />
                     </form>
                 </div>
                 <IoSend className='send-btn' onClick={sendMessage} />

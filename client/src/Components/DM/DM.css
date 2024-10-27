@@ -225,3 +225,12 @@
         margin-bottom: 20px;
     }
 }
+
+
+.audio-btn {
+    background-color: transparent;
+    border: none;
+    font-size: 1.3rem;
+    color: green;
+    cursor: pointer;
+}

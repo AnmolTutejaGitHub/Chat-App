@@ -11,6 +11,9 @@ import { AiFillHome } from "react-icons/ai";
 import { ToastContainer, toast } from 'react-toastify';
 import { FaPaperclip } from 'react-icons/fa';
 import { MdUpload } from "react-icons/md";
+import { ReactMediaRecorder } from "react-media-recorder";
+import { AiOutlineAudioMuted } from "react-icons/ai";
+import { AiOutlineAudio } from "react-icons/ai";
 
 function DMroom() {
     const SOCKET_SERVER_URL = `${process.env.REACT_APP_BACKEND_URL}`;
@@ -23,6 +26,7 @@ function DMroom() {
     const navigate = useNavigate();
     const [sending, setSending] = useState(false);
     const notify = (text) => toast(text);
+    const [recording, setRecording] = useState(false);
 
     const renderMessages = messages.map((msg, index) => {
         return <div key={index}>{msg}</div>;
@@ -115,9 +119,32 @@ function DMroom() {
         }
     };
 
+    const sendAudio = async (mediaBlobUrl) => {
+        try {
+            const response = await fetch(mediaBlobUrl);
+            const blob = await response.blob();
+            const file = new File([blob], "recording.mp3", { type: "audio/mpeg" });
+
+            const formData = new FormData();
+            formData.append('uploadfile', file);
+
+            const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/fileupload`, {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await res.json();
+            socket.emit('SendDMMessage', { room_name: roomData.room, msg: result.url, sender: roomData.sender });
+
+            console.log("Audio sent successfully");
+        } catch (error) {
+            console.error("Error sending audio:", error);
+        }
+    }
+
 
     return (<div className="dmroom">
-        <ToastContainer />
+        {/* <ToastContainer /> */}
         <div className='room-name-DM'>{roomData.sender == roomData.receiver ? "Myself" : roomData.receiver}
             <AiFillHome className="home-icon" onClick={leaveRoom} />
         </div>
@@ -135,6 +162,27 @@ function DMroom() {
                     <button type="submit" disabled={sending} className="uploadbtn">
                         <MdUpload className="upload-icon" />
                     </button>
+                    <ReactMediaRecorder
+                        audio
+                        onStop={(blobUrl) => sendAudio(blobUrl)}
+                        render={({ status, startRecording, stopRecording, mediaBlobUrl }) => (
+                            <div>
+                                <button className="audio-btn"
+                                    onClick={() => {
+                                        if (status === 'idle' || status === 'stopped') {
+                                            setRecording(true);
+                                            startRecording();
+                                        } else {
+                                            stopRecording();
+                                            setRecording(false);
+                                        }
+                                    }}
+                                >
+                                    {recording ? <AiOutlineAudio /> : <AiOutlineAudioMuted />}
+                                </button>
+                            </div>
+                        )}
+                    />
                 </form>
             </div>
             <div className='send-btn-DM' onClick={sendMessage}>Send</div>
