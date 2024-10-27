@@ -14,6 +14,7 @@ import { MdUpload } from "react-icons/md";
 import { ReactMediaRecorder } from "react-media-recorder";
 import { AiOutlineAudioMuted } from "react-icons/ai";
 import { AiOutlineAudio } from "react-icons/ai";
+import { IoCall } from "react-icons/io5";
 
 function DMroom() {
     const SOCKET_SERVER_URL = `${process.env.REACT_APP_BACKEND_URL}`;
@@ -142,10 +143,16 @@ function DMroom() {
         }
     }
 
+    function startCall() {
+        console.log("start call");
+        socket.emit('callStarted', { room_name: roomData.room, caller: roomData.sender });
+    }
+
 
     return (<div className="dmroom">
         {/* <ToastContainer /> */}
-        <div className='room-name-DM'>{roomData.sender == roomData.receiver ? "Myself" : roomData.receiver}
+        <div className='room-name-DM'>{roomData.sender === roomData.receiver ? "Myself" : roomData.receiver}
+            <IoCall className="call-icon" onClick={startCall} />
             <AiFillHome className="home-icon" onClick={leaveRoom} />
         </div>
         <ScrollToBottom className='scroll-css-dm'>

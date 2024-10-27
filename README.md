@@ -84,3 +84,4 @@ CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 - MongoDB database for user data and messages.
 - File uploads using Cloudinary.
 - Nodemailer integration for email services.
+- React Media Recorder library + multer to record and send audio 

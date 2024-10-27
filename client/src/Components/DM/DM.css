@@ -143,6 +143,15 @@
     cursor: pointer;
 }
 
+.call-icon {
+    color: white;
+    font-size: 1.8rem;
+    position: absolute;
+    top: 11.5px;
+    right: 80px;
+    cursor: pointer;
+}
+
 .clip {
     color: green;
 }
