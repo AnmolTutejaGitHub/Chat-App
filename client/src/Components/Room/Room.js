@@ -120,7 +120,7 @@ function Room() {
 
     function leaveRoom() {
         socket.disconnect();
-        navigate("/main");
+        navigate("/home");
     }
 
     const handleFileSubmit = async (e) => {

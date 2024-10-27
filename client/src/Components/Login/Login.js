@@ -13,7 +13,7 @@ function Login() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user) navigate('/main');
+        if (user) navigate('/home');
     }, [user])
 
     async function handleLogin() {

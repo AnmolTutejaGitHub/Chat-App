@@ -39,7 +39,7 @@ function OTPValidation() {
     async function validateOTP() {
         if (enteredOTP === '') return;
         if (sentOTP === enteredOTP) {
-            navigate("/main");
+            navigate("/home");
         } else {
             setError("Invalid OTP");
         }

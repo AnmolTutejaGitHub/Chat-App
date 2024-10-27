@@ -82,7 +82,7 @@ function DMroom() {
 
     function leaveRoom() {
         socket.disconnect();
-        navigate("/main");
+        navigate("/home");
     }
 
 
