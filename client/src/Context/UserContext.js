@@ -40,7 +40,7 @@ function Provider({ children }) {
         } catch (e) {
             console.log(e)
         }
-        // setloading(false);
+        setloading(false);
     }
 
     useEffect(() => {
