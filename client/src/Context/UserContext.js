@@ -28,6 +28,8 @@ function Provider({ children }) {
         return sessionStorage.getItem('user') || null;
     });
 
+    const [loading, setloading] = useState(true);
+
     async function decodeToken() {
         try {
             const token = localStorage.getItem('token');
@@ -38,6 +40,7 @@ function Provider({ children }) {
         } catch (e) {
             console.log(e)
         }
+        // setloading(false);
     }
 
     useEffect(() => {
@@ -53,7 +56,7 @@ function Provider({ children }) {
     }, [user]);
 
     return (
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ user, setUser, loading }}>
             {children}
         </UserContext.Provider>
     );

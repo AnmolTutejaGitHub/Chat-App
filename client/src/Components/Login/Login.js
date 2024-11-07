@@ -3,13 +3,14 @@ import UserContext from '../../Context/UserContext';
 import { useNavigate, Link } from 'react-router-dom';
 import './Login.css';
 import axios from 'axios';
+import { Blocks } from 'react-loader-spinner'
 
 function Login() {
     const [EnteredUser, setEnteredUser] = useState('');
     const [EnteredEmail, setEnteredEmail] = useState('');
     const [EnteredPassword, setEnteredPassword] = useState('');
     const [Error, setError] = useState('');
-    const { user, setUser } = useContext(UserContext);
+    const { user, setUser, loading } = useContext(UserContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -38,19 +39,35 @@ function Login() {
     }
 
 
-    return (<div className="login-page">
-        <div className='login-div'>
-            <form className='login' onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
-                <p>Login & Join Rooms</p>
-                <input placeholder="Enter Username" onChange={(e) => { setEnteredUser(e.target.value) }} className='login-input' required></input>
-                <input placeholder="Enter Email" onChange={(e) => { setEnteredEmail(e.target.value) }} className='login-input' required></input>
-                <input placeholder="Enter Password" onChange={(e) => { setEnteredPassword(e.target.value) }} className='login-input' required></input>
-                <div className='login-link forget-pass'><Link to="/forgetpassword" className='login-link'>Forget Password?</Link></div>
-                <p>Don't have an Account ? <span><Link to="/signup" className='login-link'>Signup</Link></span></p>
-                <button type="submit" className='nav-btn login-btn'>Login</button>
-                {Error && <p className='error'>*{Error}</p>}
-            </form>
-        </div>
-    </div>);
+    return (
+        <div className="login-page">
+            {loading &&
+                <div className="login-loader">
+                    <Blocks
+                        height="100"
+                        width="100"
+                        color="#4fa94d"
+                        ariaLabel="blocks-loading"
+                        wrapperStyle={{}}
+                        wrapperClass="blocks-wrapper"
+                        visible={true}
+                    />
+                </div>
+            }
+
+            {!loading &&
+                <div className='login-div'>
+                    <form className='login' onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
+                        <p>Login & Join Rooms</p>
+                        <input placeholder="Enter Username" onChange={(e) => { setEnteredUser(e.target.value) }} className='login-input' required></input>
+                        <input placeholder="Enter Email" onChange={(e) => { setEnteredEmail(e.target.value) }} className='login-input' required></input>
+                        <input placeholder="Enter Password" onChange={(e) => { setEnteredPassword(e.target.value) }} className='login-input' required></input>
+                        <div className='login-link forget-pass'><Link to="/forgetpassword" className='login-link'>Forget Password?</Link></div>
+                        <p>Don't have an Account ? <span><Link to="/signup" className='login-link'>Signup</Link></span></p>
+                        <button type="submit" className='nav-btn login-btn'>Login</button>
+                        {Error && <p className='error'>*{Error}</p>}
+                    </form>
+                </div>}
+        </div>);
 }
 export default Login; 
